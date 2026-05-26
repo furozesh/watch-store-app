@@ -1,0 +1,18 @@
+# dependencies
+node_modules
+
+# env files
+.env
+
+# next.js
+.next
+
+# build
+dist
+build
+
+# logs
+npm-debug.log*
+
+# uploads optional
+uploads
