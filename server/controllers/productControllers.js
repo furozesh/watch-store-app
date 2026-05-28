@@ -1,11 +1,19 @@
 const Product = require("../models/Product")
 
-const createProduct = async(req , res) => {
-    try{
-        const product = await Product.create(req.body);
+const createProduct = async (req, res) => {
+    try {
+
+        const product = await Product.create({
+            title: req.body.title,
+            description: req.body.description,
+            price: req.body.price,
+            stock: req.body.stock,
+            category: req.body.category,
+            image: req.file ? req.file.filename: "",
+        });
+
         res.status(201).json(product);
-    }
-    catch(error){
+    } catch (error) {
         res.status(500).json({
             message: error.message,
         });
@@ -18,7 +26,7 @@ const getProducts = async(req , res) => {
         res.status(200).json(products);
     }
     catch(error){
-        res.status(200).json({
+        res.status(500).json({
             message: error.message,
         })
     }

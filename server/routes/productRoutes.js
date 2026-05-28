@@ -6,10 +6,30 @@ const {
     deleteProduct,
     getProducts
 } = require("../controllers/productControllers")
+const authMiddleware = require("../middleware/authMiddleware")
+const adminMiddleware = require("../middleware/adminMiddleware")
+
+const upload = require("../middleware/uploadMiddleware")
 
 router.get("/", getProducts)
-router.post("/", createProduct)
-router.delete("/:id", deleteProduct)
-router.put("/:id", updateProduct)
+router.post(
+  "/",
+  authMiddleware,
+  adminMiddleware,
+  upload.single("image"),
+  createProduct
+);
+router.delete(
+  "/:id", 
+  authMiddleware,
+  adminMiddleware,
+  deleteProduct
+)
+router.put(
+  "/:id",
+  authMiddleware,
+  adminMiddleware,
+  updateProduct
+)
 
 module.exports = router

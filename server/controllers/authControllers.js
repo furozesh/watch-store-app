@@ -58,12 +58,15 @@ const verifyOTP = async (req, res) => {
                 id: user._id,
                 role: user.role,
             },
-            "SECRET_KEY",
+            process.env.JWT_SECRET,
             {
                 expiresIn: "7d",
             }
         );
-
+        user.otp = null
+        user.otpExpires = null
+        await user.save();
+        
         return res.status(200).json({
             message: "Login Successful",
             token,
