@@ -1,0 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap');
+@import "tailwindcss";
+
+
+@theme {
+    --font-sans: "Vazirmatn", ui-sans-serif, system-ui, sans-serif;
+}
