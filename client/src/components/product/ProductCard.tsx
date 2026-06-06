@@ -18,8 +18,9 @@ export default function ProductCard({
     <div className="border rounded-xl p-4 flex flex-col gap-3">
 
       <img
-        src={product.image}
+        src={`http://localhost:5000/uploads/${product.image}`}
         alt={product.title}
+        width={200}
         className="w-full h-60 object-cover rounded-lg"
       />
 

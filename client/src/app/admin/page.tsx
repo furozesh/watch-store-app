@@ -25,10 +25,8 @@ export default function page() {
   }
   return (
     <>
-      <div>
-      پنل ادمین
-    </div>
-      <Link href={"/admin/products/create"}>ساخت محصول</Link>
+      <h3 className="font-black text-2xl w-full flex justify-center mt-7 text-blue-950">پنل ادمین</h3>
+      <Link href={"/admin/products"} className="text-blue-900 hover:text-blue-700 w-full flex justify-center">دیدن محصولات</Link>
     </>
   )
 }
