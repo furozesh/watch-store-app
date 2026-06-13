@@ -6,7 +6,8 @@ const cors = require("cors")
 
 const authRoutes = require("./routes/authRoute")
 const productRoutes = require("./routes/productRoutes")
-
+const cartRoutes = require("./routes/cartRoute")
+const orderRoutes = require("./routes/orderRoutes")
 const app = express()
 connectDB(); 
 
@@ -20,6 +21,14 @@ app.use(
   "/uploads",
   express.static("uploads")
 );
+app.use(
+    "/api/cart",
+    cartRoutes
+)
+app.use(
+    "/api/orders",
+    orderRoutes
+)
 console.log("env",process.env.JWT_SECRET)
 app.listen(5000 , () => {
     console.log("Server Running")

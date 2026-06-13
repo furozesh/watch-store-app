@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { Product } from "@/types/product";
 import ProductCard from "@/components/product/ProductCard";
+import Link from "next/link";
 
 
 export default function HomePage() {
@@ -62,10 +63,12 @@ export default function HomePage() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         {products.map((product) => (
-          <ProductCard
-            key={product._id}
-            product={product}
-          />
+          <Link href={`/products/${product._id}`} key={product._id}>
+            <ProductCard
+              key={product._id}
+              product={product}
+            />
+          </Link>
         ))}
       </div>
     </main>
