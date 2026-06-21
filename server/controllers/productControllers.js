@@ -9,6 +9,7 @@ const createProduct = async (req, res) => {
             price: req.body.price,
             stock: req.body.stock,
             category: req.body.category,
+            gender: req.body.gender,
             image: req.file ? req.file.filename: "",
         });
 
@@ -22,7 +23,24 @@ const createProduct = async (req, res) => {
 
 const getProducts = async(req , res) => {
     try{
-        const products = await Product.find();
+        const {category , gender , minPrice , maxPrice} = req.query
+        let filter = {}
+        if(category){
+            filter.category = category
+        }
+        if(gender){
+            filter.gender = gender
+        }
+        if(minPrice || maxPrice) { 
+            filter.price = {}
+            if(minPrice){
+                filter.price.$gte= Number(minPrice)
+            }
+            if(maxPrice){
+                filter.price.$lte = Number(maxPrice)
+            }
+        }
+        const products = await Product.find(filter);
         res.status(200).json(products);
     }
     catch(error){

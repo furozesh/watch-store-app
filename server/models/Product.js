@@ -25,6 +25,15 @@ const productSchema = new mongoose.Schema(
             enum: ["classic", "smart", "sport"],
             required: true,
         },
+        gender: {
+            type: String,
+            enum: [
+                "men",
+                "women",
+                "unisex"
+            ],
+            default: "unisex"
+        }
     },
     {
         timestamps: true,

@@ -10,9 +10,6 @@ interface ProductType {
 }
 export default function AdminPRoductsPage () {
     const [products , setProducts] = useState<ProductType[]>([])
-    useEffect(() => {
-        fetchProducts()
-    }, [])
 
     const fetchProducts = async() => {
         try{
@@ -23,7 +20,9 @@ export default function AdminPRoductsPage () {
             console.log(error)
         }
     }
-
+    useEffect(() => {
+        fetchProducts()
+    }, [])
     const deleteProduct = async(id: number | string) => {
         try{
             const token = localStorage.getItem("token")

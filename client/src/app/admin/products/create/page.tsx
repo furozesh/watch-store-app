@@ -14,6 +14,7 @@ export default function CreateProductPage(){
     const [stock , setStock] = useState("")
     const [category , setCategory] = useState("classic")
     const [image , setImage] = useState<File | null>(null)
+    const [gender , setGender] = useState("unisex")
     useEffect(() => {
         if(productId){
             fetchProduct()
@@ -31,6 +32,7 @@ export default function CreateProductPage(){
                         price,
                         stock,
                         category,
+                        gender
                     },
                     {
                         headers: {
@@ -47,6 +49,7 @@ export default function CreateProductPage(){
             formData.append("price" , price)
             formData.append("stock" , stock)
             formData.append("category" , category)
+            formData.append("gender", gender)
             if (!image) {
                 alert("هیچ فایلی انتخاب نشده");
                 return;
@@ -78,6 +81,7 @@ export default function CreateProductPage(){
             setPrice(String(res.data.price))
             setStock(String(res.data.stock))
             setCategory(res.data.category)
+            setGender(res.data.gender)
         }
         catch(error){
             console.log(error)
@@ -103,7 +107,17 @@ export default function CreateProductPage(){
                         اسپورت
                     </option>
                 </select>
-
+                <select value={gender} onChange={(e) => setGender(e.target.value)}>
+                    <option value="men">
+                        مردانه
+                    </option>
+                    <option value="women">
+                        زنانه
+                    </option>
+                    <option value="unisex">
+                        بدون جنسیت
+                    </option>
+                </select>
                 <input type="file" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     if(e.target.files && e.target.files.length > 0){
                         setImage(e.target.files[0])

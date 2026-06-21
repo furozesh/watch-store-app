@@ -8,35 +8,35 @@ import ProductCard from "@/components/product/ProductCard";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 
-
 export default function HomePage() {
-  const [products, setProducts] = useState<Product[]>(
-    []
-  );
-
-  const [loading, setLoading] =
-    useState<boolean>(true);
-
-  const [error, setError] =
-    useState<string>("");
-
+  const [products, setProducts] = useState<Product[]>([]);
+  const [category , setCategory] = useState("")
+  const [gender , setGender] = useState("")
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get(
-          "http://localhost:5000/api/products"
-        );
-
-        setProducts(res.data);
-      } catch (err) {
-        setError("خطا در دریافت محصولات");
-      } finally {
-        setLoading(false);
+    fetchProducts()
+  }, [category , gender])
+  const fetchProducts = async () => {
+  try {
+    setLoading(true);
+    const res = await axios.get(
+      "http://localhost:5000/api/products",
+      {
+        params: {
+          category,
+          gender,
+        },
       }
-    };
+    );
 
-    fetchProducts();
-  }, []);
+    setProducts(res.data);
+  } catch (error) {
+    setError("خطا در دریافت محصولات");
+  } finally {
+    setLoading(false);
+  }
+};
 
   if (loading) {
     return (
@@ -60,7 +60,59 @@ export default function HomePage() {
       <h1 className="text-4xl font-bold mb-10">
         فروشگاه ساعت
       </h1>
+      <div className="flex gap-4 mb-8">
+        <select
+          value={category}
+          onChange={(e) =>
+            setCategory(e.target.value)
+          }
+          className="border p-2 rounded"
+        >
 
+          <option value="">
+            همه دسته‌ها
+          </option>
+
+          <option value="classic">
+            کلاسیک
+          </option>
+
+          <option value="smart">
+            هوشمند
+          </option>
+
+          <option value="sport">
+            اسپورت
+          </option>
+
+        </select>
+
+        <select
+          value={gender}
+          onChange={(e) =>
+            setGender(e.target.value)
+          }
+          className="border p-2 rounded"
+        >
+
+          <option value="">
+            همه
+          </option>
+
+          <option value="men">
+            مردانه
+          </option>
+
+          <option value="women">
+            زنانه
+          </option>
+
+          <option value="unisex">
+            یونیسکس
+          </option>
+
+        </select>
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         {products.map((product) => (
