@@ -6,6 +6,7 @@ import axios from "axios";
 import { Product } from "@/types/product";
 import ProductCard from "@/components/product/ProductCard";
 import Link from "next/link";
+import Navbar from "@/components/Navbar";
 
 
 export default function HomePage() {
@@ -55,7 +56,7 @@ export default function HomePage() {
 
   return (
     <main className="p-10 font-sans">
-
+      <Navbar/>
       <h1 className="text-4xl font-bold mb-10">
         فروشگاه ساعت
       </h1>

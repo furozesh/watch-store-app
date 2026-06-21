@@ -5,7 +5,8 @@ const {
     updateProduct,
     deleteProduct,
     getProducts,
-    getProductByID
+    getProductByID,
+    SearchProducts
 } = require("../controllers/productControllers")
 const authMiddleware = require("../middleware/authMiddleware")
 const adminMiddleware = require("../middleware/adminMiddleware")
@@ -31,6 +32,10 @@ router.put(
   authMiddleware,
   adminMiddleware,
   updateProduct
+)
+router.get(
+  "/search",
+  SearchProducts
 )
 router.get(
   "/:id",

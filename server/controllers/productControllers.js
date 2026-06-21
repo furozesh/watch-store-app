@@ -77,10 +77,30 @@ const getProductByID = async(req , res) => {
         })
     }
 }
+const SearchProducts = async (req, res) => {
+    try{
+        const query = req.query.query || "";
+        const products = await Product.find({
+            title: {
+                $regex: query,
+                $options: "i"
+            },
+        })
+        .select("title image")
+        .limit(5)
+
+        res.status(200).json(products);
+    }catch(error){
+        res.status(500).json({
+            message: error.message
+        })
+    }
+}
 module.exports = {
     createProduct,
     getProducts,
     getProductByID,
     updateProduct,
     deleteProduct,
+    SearchProducts
 }

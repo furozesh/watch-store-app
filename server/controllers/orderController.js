@@ -41,8 +41,42 @@ const getMyOrders = async(req, res) => {
         })
     }
 }
+const getAllOrders = async(req, res) => {
+    try{
+        const orders = await Order.find().populate("user").populate("items.product").sort({
+            createdAt: -1,
+        })
+        res.status(200).json(
+            orders
+        )
+    }catch(error){
+        res.status(500).json({
+            message: error.message
+        })
+    }
+}
 
+const updateOrderStatus = async(req, res) => {
+    try{
+        const order = await Order.findByIdAndUpdate(
+            req.params.id,
+            {
+                status: req.body.status
+            },
+            {
+                new: true,
+            }
+        )
+        res.status(200).json(order)
+    }catch(error){
+        res.status(500).json({
+            message: error.message
+        })
+    }
+}
 module.exports = {
     createOrder,
     getMyOrders,
+    getAllOrders,
+    updateOrderStatus
 }
