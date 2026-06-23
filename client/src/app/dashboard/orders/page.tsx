@@ -12,8 +12,7 @@ export default function OrdersPage() {
     fetchOrders();
   }, []);
 
-  const fetchOrders =
-    async () => {
+  const fetchOrders = async () => {
 
       const token =
         localStorage.getItem(
@@ -34,7 +33,7 @@ export default function OrdersPage() {
       setOrders(
         res.data
       );
-    };
+  };
 
   return (
     <div className="p-10">
