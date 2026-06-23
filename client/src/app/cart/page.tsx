@@ -17,6 +17,11 @@ interface CartType {
 export default function CartPage(){
     const [cart , setCart] = useState<CartType | null>(null)
     useEffect(() => {
+      const token = localStorage.getItem("token")
+      if(!token){
+        window.location.href = "/login"
+        return;
+      }
         fetchCart()
     }, [])
 

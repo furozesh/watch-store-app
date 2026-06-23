@@ -34,6 +34,11 @@ export default function ProductPage() {
     const addToCart = async () => {
     try{
         const token = localStorage.getItem("token");
+        if(!token){
+            alert("ابتدا وارد حساب کاربری شوید.")
+            window.location.href = "/login"
+            return;
+        }
         await axios.post(
             "http://localhost:5000/api/cart/add",
             {
