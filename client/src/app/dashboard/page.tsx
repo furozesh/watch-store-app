@@ -27,7 +27,7 @@ export default function page() {
         داشبورد کاربر
       </h1>
       <div className='flex gap-3 mb-8'>
-         <Link
+        <Link
           href="/dashboard?tab=orders"
           className={`px-4 py-2 rounded ${
             tab === "orders"
@@ -47,15 +47,14 @@ export default function page() {
         >
           پروفایل
         </Link>
-        {tab === "orders" && (
+      </div>
+      {tab === "orders" && (
           <UserDashboardOrderTab />
         )}
 
         {tab === "profile" && (
           <UserDashboardProfileTab />
         )}
-      </div>
-      user dashboard
     </div>
   )
 }
