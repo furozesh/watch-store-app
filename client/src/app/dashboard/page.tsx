@@ -1,4 +1,5 @@
 "use client"
+import UserDashboardAddressTab from '@/components/tabs/UserDashboardAddressTab';
 import UserDashboardOrderTab from '@/components/tabs/UserDashboardOrderTab';
 import UserDashboardProfileTab from '@/components/tabs/UserDashboardProfileTab';
 import { getUserFromToken } from '@/utils/auth'
@@ -47,14 +48,29 @@ export default function page() {
         >
           پروفایل
         </Link>
+        <Link
+          href="/dashboard?tab=address"
+          className={`px-4 py-2 rounded ${
+            tab === "address"
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200"
+          }`}
+        >
+          آدرس‌ها
+        </Link>
       </div>
-      {tab === "orders" && (
+        {tab === "orders" && (
           <UserDashboardOrderTab />
         )}
 
         {tab === "profile" && (
           <UserDashboardProfileTab />
         )}
+        {
+          tab === "address" && (
+            <UserDashboardAddressTab/>
+          )
+        }
     </div>
   )
 }

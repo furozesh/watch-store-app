@@ -9,6 +9,7 @@ const productRoutes = require("./routes/productRoutes")
 const cartRoutes = require("./routes/cartRoute")
 const orderRoutes = require("./routes/orderRoutes")
 const userRoutes = require("./routes/userRoutes")
+const addressRoutes = require("./routes/addressRoutes")
 const app = express()
 connectDB(); 
 
@@ -33,6 +34,10 @@ app.use(
 app.use(
     "/api/users",
     userRoutes
+)
+app.use(
+    "/api/addresses",
+    addressRoutes
 )
 console.log("env",process.env.JWT_SECRET)
 app.listen(5000 , () => {

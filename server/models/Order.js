@@ -33,6 +33,11 @@ const orderSchema = new mongoose.Schema(
             ],
             default: "pending",
         },
+        address: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Address",
+            required: true,
+        }
     },
     {
         timestamps: true
