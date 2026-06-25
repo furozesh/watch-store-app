@@ -6,17 +6,29 @@ import axios from "axios";
 interface userLogin {
   phone: string,
   fullName: string
+  role: string
 }
 export default function Navbar() {
   const [user , setUser] = useState<userLogin | null>(null)
+  const [cartCount , setCartCount] = useState(0)
   useEffect(() => {
     fetchProfile()
+    fetchCartCount()
+
+    const refreshCart = () => {
+      fetchCartCount()
+    }
+    window.addEventListener(
+      "cartUpdated",
+      refreshCart
+    )
+    return () => {
+      window.removeEventListener(
+        "cartUpdated",
+        refreshCart
+      )
+    }
   }, [])
-  const logout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("user")
-    window.location.href = "/login"
-  }
   const fetchProfile = async() => {
     const token = localStorage.getItem("token")
     if(!token) return
@@ -34,9 +46,23 @@ export default function Navbar() {
       console.log(error)
     }
   }
-  const token = typeof window !== "undefined" ?
-    localStorage.getItem("token")
-    : null;
+  const fetchCartCount = async() => {
+    const token = localStorage.getItem("token");
+    if(!token) return
+    try{
+      const res = await axios.get(
+        "http://localhost:5000/api/cart/count",
+        {
+          headers:{
+            Authorization: `Bearer ${token}`
+          }
+        }
+      )
+      setCartCount(res.data.count)
+    }catch(error){
+      console.log(error)
+    }
+  }
   return (
     <div className="flex justify-between items-center p-5">
       <h1>Watch Store</h1>
@@ -44,12 +70,27 @@ export default function Navbar() {
       {
         user ? 
         (
-          <Link href="/dashboard">{user.fullName || user.phone}</Link>
+          <Link href={
+            user.role === "admin" ? "/admin" : "/dashboard"
+          }>
+            {user.fullName || user.phone}
+          </Link>
         ) :
         (
           <Link href="/login">ورود</Link>
         )
       }
+      <Link
+        href="/cart"
+        className="relative px-3 py-2"
+      >
+        🛒
+        {cartCount > 0 && (
+          <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+            {cartCount}
+          </span>
+        )}
+      </Link>
     </div>
 
   )

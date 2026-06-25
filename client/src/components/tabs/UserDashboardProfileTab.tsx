@@ -9,6 +9,10 @@ export default function UserDashboardProfileTab() {
   const [email, setEmail] = useState("")
   const [gender, setGender] = useState("")
   const [phone, setPhone] = useState("")
+  const logout = () => {
+    localStorage.removeItem("token")
+    window.location.reload()
+  }
   useEffect(() => {
     fetchProfile()
   }, [])
@@ -126,7 +130,9 @@ export default function UserDashboardProfileTab() {
             >
                 ذخیره اطلاعات
             </button>
-
+            <button onClick={logout}>
+                خروج از حساب
+            </button>
         </div>
 
     )

@@ -5,7 +5,7 @@ import UserDashboardProfileTab from '@/components/tabs/UserDashboardProfileTab';
 import { getUserFromToken } from '@/utils/auth'
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function page() {
   const searchParams = useSearchParams();

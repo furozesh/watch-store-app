@@ -10,6 +10,7 @@ interface ProductProps {
     desription: string
     price: number
     image: string
+    stock: number
 }
 
 export default function ProductPage() {
@@ -51,6 +52,9 @@ export default function ProductPage() {
             }
         )
         alert("محصول به سبد خرید اضافه شد.")
+        window.dispatchEvent(
+            new Event("cartUpdated")
+        )
     }catch(error){
         console.log(error)
     }
@@ -60,7 +64,21 @@ export default function ProductPage() {
             <div>
                 {product.title}
             </div>
-            <button onClick={addToCart}>اضافه کردن به سبد خرید</button>
+            {product.stock > 0 ? (
+                <button
+                    onClick={addToCart}
+                    className="bg-blue-600 text-white px-5 py-2 rounded"
+                >
+                    افزودن به سبد خرید
+                </button>
+            ) : (
+                <button
+                    disabled
+                    className="bg-gray-400 text-white px-5 py-2 rounded cursor-not-allowed"
+                >
+                    ناموجود
+                </button>
+            )}
         </div>
     )
 }

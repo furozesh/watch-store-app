@@ -65,9 +65,27 @@ const removeFromCart = async(req, res) => {
         })
     }
 }
-
+const getCartCount = async(req, res) => {
+    try{
+        const cart = await Cart.findOne({
+            user: req.user.id
+        })
+        if(!cart){
+            return res.json({
+                count: 0,
+            })
+        }
+        const count = cart.items.reduce((sum , item) => sum + item.quantity, 0);
+        res.json({count})
+    }catch(error){
+        res.status(500).json({
+            message: error.message
+        })
+    }
+}
 module.exports = {
     addToCart,
     getCart,
     removeFromCart,
+    getCartCount,
 }

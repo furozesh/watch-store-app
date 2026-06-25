@@ -1,5 +1,6 @@
 "use client"
 import axios from "axios";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 interface CartItem {
@@ -148,12 +149,9 @@ export default function CartPage(){
               {totalPrice}
             </h2>
 
-            <button
-              className="mt-4 bg-green-600 text-white px-5 py-2 rounded"
-              onClick={createOrder}
-            >
-              ثبت سفارش
-            </button>
+            <Link href={"/checkout"}>
+              <button>ادامه فرایند خرید</button>
+            </Link>
 
           </div>
         </>
