@@ -4,6 +4,7 @@ const authMiddleware = require("../middleware/authMiddleware")
 const {
     createAddress,
     getMyAddress,
+    updateAddress,
     deleteAddress
 } = require("../controllers/addressController")
 
@@ -22,5 +23,9 @@ router.delete(
     authMiddleware,
     deleteAddress
 )
-
+router.put(
+    "/:id",
+    authMiddleware,
+    updateAddress
+)
 module.exports = router

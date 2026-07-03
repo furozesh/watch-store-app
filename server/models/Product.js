@@ -33,6 +33,22 @@ const productSchema = new mongoose.Schema(
                 "unisex"
             ],
             default: "unisex"
+        },
+        rating:{
+            type: Number,
+            default: 0,
+        },
+        reviewsCount: {
+            type: Number,
+            default: 0
+        },
+        discountPercentage: {
+            type: Number,
+            default: 0
+        },
+        brand: {
+            type: String,
+            enum: ["Casio", "Rolex", "Seiko", "Citizen", "Apple", "Samsung"]
         }
     },
     {

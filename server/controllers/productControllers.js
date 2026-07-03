@@ -22,13 +22,22 @@ const createProduct = async (req, res) => {
 
 const getProducts = async(req , res) => {
     try{
-        const {category , gender , minPrice , maxPrice} = req.query
+        const {category, gender, minPrice, maxPrice, brand, inStock, discount, search, page= 1, limit=9,} = req.query
         let filter = {}
         if(category){
             filter.category = category
         }
         if(gender){
             filter.gender = gender
+        }
+        if(brand){
+            filter.brand = brand
+        }
+        if(search){
+            filter.title = {
+                $regex: search,
+                $options: "i"
+            }
         }
         if(minPrice || maxPrice) { 
             filter.price = {}
@@ -39,10 +48,28 @@ const getProducts = async(req , res) => {
                 filter.price.$lte = Number(maxPrice)
             }
         }
-        const products = await Product.find(filter);
-        res.status(200).json(products);
+        if(inStock === "true"){
+            filter.stock = {$gt: 0}
+        }
+        if(discount === "true"){
+            filter.discountPercentage = {$gt: 0}
+        }
+        const currentPage = Number(page)
+        const pageSize = Number(limit)
+        const totalProducts = await Product.countDocuments(filter)
+        const products = await Product.find(filter)
+        .skip((currentPage - 1) * pageSize)
+        .limit(pageSize)
+        .sort({createdAt: -1})
+        res.status(200).json({
+            products,
+            currentPage,
+            totalPages: Math.ceil(totalProducts / pageSize),
+            totalProducts,
+        });
     }
     catch(error){
+        console.log(error)
         res.status(500).json({
             message: error.message,
         })

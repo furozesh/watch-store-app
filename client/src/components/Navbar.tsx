@@ -11,6 +11,7 @@ interface userLogin {
 export default function Navbar() {
   const [user , setUser] = useState<userLogin | null>(null)
   const [cartCount , setCartCount] = useState(0)
+  
   useEffect(() => {
     fetchProfile()
     fetchCartCount()
