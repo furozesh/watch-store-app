@@ -14,7 +14,7 @@ export default function AdminPRoductsPage () {
     const fetchProducts = async() => {
         try{
             const res = await axios.get("http://localhost:5000/api/products")
-            setProducts(res.data)
+            setProducts(res.data.products)
         }
         catch(error){
             console.log(error)

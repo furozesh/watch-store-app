@@ -1,3 +1,4 @@
+import { SearchProvider } from "@/context/SearchContext"
 import "./globals.css"
 export default function RootLayout({
   children,
@@ -6,7 +7,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <SearchProvider>
+          {children}
+        </SearchProvider>
+      </body>
     </html>
   )
 }

@@ -10,6 +10,7 @@ const createProduct = async (req, res) => {
             category: req.body.category,
             gender: req.body.gender,
             image: req.file ? req.file.filename: "",
+            brand: req.body.brand
         });
 
         res.status(201).json(product);
@@ -64,7 +65,7 @@ const getProducts = async(req , res) => {
         res.status(200).json({
             products,
             currentPage,
-            totalPages: Math.ceil(totalProducts / pageSize),
+            totalPages: Math.max(1, Math.ceil(totalProducts / pageSize)),
             totalProducts,
         });
     }

@@ -15,6 +15,7 @@ export default function CreateProductPage(){
     const [category , setCategory] = useState("classic")
     const [image , setImage] = useState<File | null>(null)
     const [gender , setGender] = useState("unisex")
+    const [brand, setBrand] = useState("Casio");
     useEffect(() => {
         if(productId){
             fetchProduct()
@@ -32,7 +33,8 @@ export default function CreateProductPage(){
                         price,
                         stock,
                         category,
-                        gender
+                        gender,
+                        brand
                     },
                     {
                         headers: {
@@ -50,6 +52,7 @@ export default function CreateProductPage(){
             formData.append("stock" , stock)
             formData.append("category" , category)
             formData.append("gender", gender)
+            formData.append("brand", brand)
             if (!image) {
                 alert("هیچ فایلی انتخاب نشده");
                 return;
@@ -72,7 +75,6 @@ export default function CreateProductPage(){
         }
     }
     const fetchProduct = async () => {
-        console.log("fetchinh product...")
         try{
             const res = await axios.get(`http://localhost:5000/api/products/${productId}`)
             console.log(res.data)
@@ -82,6 +84,7 @@ export default function CreateProductPage(){
             setStock(String(res.data.stock))
             setCategory(res.data.category)
             setGender(res.data.gender)
+            setBrand(res.data.brand)
         }
         catch(error){
             console.log(error)
@@ -117,6 +120,31 @@ export default function CreateProductPage(){
                     <option value="unisex">
                         بدون جنسیت
                     </option>
+                </select>
+                <select
+                    value={brand}
+                    onChange={(e) => setBrand(e.target.value)}
+                    className="border border-gray-400 rounded-lg text-right px-4 py-2"
+                >
+                    <option value="Casio">
+                        Casio
+                    </option>
+                    <option value="Rolex">
+                        Rolex
+                    </option>
+                    <option value="Seiko">
+                        Seiko
+                    </option>
+                    <option value="Citizen">
+                        Citizen
+                    </option>
+                    <option value="Apple">
+                        Apple
+                    </option>
+                    <option value="Samsung">
+                        Samsung
+                    </option>
+
                 </select>
                 <input type="file" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     if(e.target.files && e.target.files.length > 0){

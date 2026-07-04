@@ -7,6 +7,7 @@ import ProductCard from "@/components/product/ProductCard";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import useProductFilters from "@/hooks/useProductFilter";
+import { useSearch } from "@/context/SearchContext";
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -15,7 +16,7 @@ export default function HomePage() {
   const [error, setError] = useState<string>("");
   const [searchLoading ,setSearchLoading] = useState(false);
   const {page, search, updateParam, category, gender, brand, minPrice, maxPrice, inStock, discount, resetFilters} = useProductFilters()
-
+  const {isSearching , setIsSearching} = useSearch()
   useEffect(() => {
     fetchProducts()
   }, [category , gender, search, page, minPrice, maxPrice, brand, discount, inStock])
@@ -47,6 +48,7 @@ export default function HomePage() {
       setError("خطا در دریافت محصولات");
     } finally {
       setLoading(false);
+      setIsSearching(false)
     }
   };
 
@@ -112,6 +114,39 @@ export default function HomePage() {
           </option>
 
         </select>
+        <select
+          value={brand}
+          onChange={(e) => updateParam("brand", e.target.value)}
+          className="border p-2 rounded"
+        >
+          <option value="">
+              همه برندها
+          </option>
+
+          <option value="Casio">
+              Casio
+          </option>
+
+          <option value="Rolex">
+              Rolex
+          </option>
+
+          <option value="Seiko">
+              Seiko
+          </option>
+
+          <option value="Citizen">
+              Citizen
+          </option>
+
+          <option value="Apple">
+              Apple
+          </option>
+
+          <option value="Samsung">
+              Samsung
+          </option>
+        </select>
       </div>
       {loading && (
         <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
@@ -119,13 +154,10 @@ export default function HomePage() {
         </div>
       )}
       <div
-        className={`
-          grid grid-cols-1 md:grid-cols-3 gap-6
-          transition-all duration-300
-          ${loading ? "opacity-40 pointer-events-none blur-sm" : "opacity-100"}
-        `}
-        >
-
+        className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-300 ${isSearching ? "opacity-40 pointer-events-none" : ""}`}>
+        {isSearching && (
+          <div className="fixed inset-0 bg-black/10 z-40 pointer-events-none"/>
+        )}
         {products.map((product) => (
           <Link href={`/products/${product._id}`} key={product._id}>
             <ProductCard
@@ -135,7 +167,19 @@ export default function HomePage() {
           </Link>
         ))}
       </div>
-
+      {products.length === 0 && !loading && (
+        <div className="text-center py-20">
+          <h2 className="text-2xl font-bold">
+              محصولی پیدا نشد
+          </h2>
+          <button
+              onClick={resetFilters}
+              className="mt-5 bg-blue-600 text-white px-5 py-2 rounded-lg"
+          >
+              حذف فیلترها
+          </button>
+        </div>
+      )}
       <div className="flex justify-center gap-2 mt-10">
 
         <button
