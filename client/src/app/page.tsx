@@ -8,6 +8,7 @@ import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import useProductFilters from "@/hooks/useProductFilter";
 import { useSearch } from "@/context/SearchContext";
+import PriceRange from "@/components/filters/PriceRange";
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
@@ -64,6 +65,9 @@ export default function HomePage() {
   return (
     <main className="p-10 font-sans">
       <Navbar/>
+      <div className="flex gap-5">
+        <PriceRange/>
+      </div>
       <h1 className="text-4xl font-bold mb-10">
         فروشگاه ساعت
       </h1>

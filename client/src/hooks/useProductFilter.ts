@@ -37,8 +37,27 @@ export default function useProductFilters() {
     }
 
     router.replace(`${pathname}?${params.toString()}`);
+    
   };
+  
+  const updatePriceRange = (min: number, max: number) => {
+    const params = new URLSearchParams(searchParams.toString());
 
+    if (min === 0) {
+      params.delete("minPrice");
+    } else {
+      params.set("minPrice", String(min));
+    }
+
+    if (max === 10000000) {
+      params.delete("maxPrice");
+    } else {
+      params.set("maxPrice", String(max));
+    }
+
+    params.delete("page");
+    router.replace(`${pathname}?${params.toString()}`);
+  };
   const resetFilters = () => {
     router.replace(pathname);
   };
@@ -47,5 +66,6 @@ export default function useProductFilters() {
     ...filters,
     updateParam,
     resetFilters,
+    updatePriceRange
   };
 }
