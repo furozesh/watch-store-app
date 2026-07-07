@@ -10,7 +10,8 @@ const createProduct = async (req, res) => {
             category: req.body.category,
             gender: req.body.gender,
             image: req.file ? req.file.filename: "",
-            brand: req.body.brand
+            brand: req.body.brand,
+            discountPercentage: req.body.discountPercentage
         });
 
         res.status(201).json(product);
@@ -23,7 +24,7 @@ const createProduct = async (req, res) => {
 
 const getProducts = async(req , res) => {
     try{
-        const {category, gender, minPrice, maxPrice, brand, inStock, discount, search, page= 1, limit=9,} = req.query
+        const {category, gender, minPrice, maxPrice, brand, inStock, discount, search, sort, page= 1, limit=9,} = req.query
         let filter = {}
         if(category){
             filter.category = category
@@ -58,10 +59,36 @@ const getProducts = async(req , res) => {
         const currentPage = Number(page)
         const pageSize = Number(limit)
         const totalProducts = await Product.countDocuments(filter)
+        let sortOption = {
+            createdAt: -1
+        }
+        switch(sort){
+            case 'price_asc':
+                sortOption = {
+                    price: 1,
+                }
+                break;
+            case 'price_desc':
+                sortOption = {
+                    price: -1,
+                }  
+                break;
+            case 'rating': 
+                sortOption = {
+                    rating: -1,
+                } 
+                break;
+            case 'newest':
+                sortOption = {
+                    createdAt: -1,
+                }
+                break;       
+          
+        }
         const products = await Product.find(filter)
         .skip((currentPage - 1) * pageSize)
         .limit(pageSize)
-        .sort({createdAt: -1})
+        .sort(sortOption)
         res.status(200).json({
             products,
             currentPage,

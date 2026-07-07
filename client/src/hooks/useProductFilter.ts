@@ -21,6 +21,7 @@ export default function useProductFilters() {
     maxPrice: searchParams.get("maxPrice") || "",
     inStock: searchParams.get("inStock") || "",
     discount: searchParams.get("discount") || "",
+    sort: searchParams.get("sort") || ""
   };
 
   const updateParam = (key: string, value: string) => {

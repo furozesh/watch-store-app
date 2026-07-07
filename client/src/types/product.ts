@@ -9,4 +9,5 @@ export interface Product {
   discount?: number
   rating?: number
   reviewsCount?: number
+  discountPercentage: number
 }

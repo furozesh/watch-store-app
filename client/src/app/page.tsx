@@ -9,18 +9,18 @@ import Navbar from "@/components/Navbar";
 import useProductFilters from "@/hooks/useProductFilter";
 import { useSearch } from "@/context/SearchContext";
 import PriceRange from "@/components/filters/PriceRange";
-
+import ProductToggle from "@/components/filters/ProductToggle";
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
   const [searchLoading ,setSearchLoading] = useState(false);
-  const {page, search, updateParam, category, gender, brand, minPrice, maxPrice, inStock, discount, resetFilters} = useProductFilters()
+  const {page, search, updateParam, category, gender, brand, minPrice, maxPrice, inStock, discount, resetFilters, sort} = useProductFilters()
   const {isSearching , setIsSearching} = useSearch()
   useEffect(() => {
     fetchProducts()
-  }, [category , gender, search, page, minPrice, maxPrice, brand, discount, inStock])
+  }, [category , gender, search, page, minPrice, maxPrice, brand, discount, inStock, sort])
   const fetchProducts = async () => {
     try {
       setLoading(true);
@@ -38,6 +38,7 @@ export default function HomePage() {
             maxPrice,
             inStock,
             discount,
+            sort,
             limit: 9,
           },
         }
@@ -67,6 +68,7 @@ export default function HomePage() {
       <Navbar/>
       <div className="flex gap-5">
         <PriceRange/>
+        <ProductToggle/>
       </div>
       <h1 className="text-4xl font-bold mb-10">
         فروشگاه ساعت
@@ -151,12 +153,37 @@ export default function HomePage() {
               Samsung
           </option>
         </select>
+        <select
+          value={sort}
+          onChange={(e)=>updateParam("sort",e.target.value)}
+          className="border rounded p-2"
+        >
+          <option value="">
+              مرتب سازی
+          </option>
+
+          <option value="newest">
+              جدیدترین
+          </option>
+
+          <option value="price_asc">
+              ارزان‌ترین
+          </option>
+
+          <option value="price_desc">
+              گران‌ترین
+          </option>
+
+          <option value="rating">
+              بیشترین امتیاز
+          </option>
+        </select>
       </div>
       {loading && (
-        <div className="fixed inset-0 bg-black/20 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+        <div className="fixed inset-0 bg-black/20 flex items-center justify-center z-50">
+      
         </div>
-      )}
+      )} 
       <div
         className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-300 ${isSearching ? "opacity-40 pointer-events-none" : ""}`}>
         {isSearching && (

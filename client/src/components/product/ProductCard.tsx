@@ -1,4 +1,5 @@
 import { Product } from "@/types/product";
+import { formatPrice } from "@/utils/formatPrice";
 import axios from "axios";
 
 
@@ -14,7 +15,9 @@ const categoryMap: Record<string, string> = {
 
 export default function ProductCard({
   product,
-}: Props) {
+}: Props) 
+{
+  const discountPrice = product.price - (product.price * product.discountPercentage / 100)
   const addToCart = async () => {
     try{
         const token = localStorage.getItem("token");
@@ -61,9 +64,10 @@ export default function ProductCard({
         {product.description}
       </p>
 
-      <p className="font-bold text-lg">
-        {product.price} $
-      </p>
+      <div className="font-bold text-lg flex gap-3">
+        {product.discountPercentage ? <del>{formatPrice(product.price)}</del> : ''}
+        <span>{formatPrice(discountPrice)}</span>
+      </div>
 
       <button 
         onClick={addToCart}    

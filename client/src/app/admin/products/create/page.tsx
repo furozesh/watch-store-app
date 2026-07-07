@@ -4,6 +4,7 @@ import axios from "axios"
 import { useState } from "react"
 import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
+import { formatPrice } from "@/utils/formatPrice"
 
 export default function CreateProductPage(){
     const searchParams = useSearchParams()
@@ -16,6 +17,7 @@ export default function CreateProductPage(){
     const [image , setImage] = useState<File | null>(null)
     const [gender , setGender] = useState("unisex")
     const [brand, setBrand] = useState("Casio");
+    const [discountPercentage, setDiscountPercentage] = useState("0")
     useEffect(() => {
         if(productId){
             fetchProduct()
@@ -34,7 +36,8 @@ export default function CreateProductPage(){
                         stock,
                         category,
                         gender,
-                        brand
+                        brand,
+                        discountPercentage
                     },
                     {
                         headers: {
@@ -53,6 +56,7 @@ export default function CreateProductPage(){
             formData.append("category" , category)
             formData.append("gender", gender)
             formData.append("brand", brand)
+            formData.append("discountPercentage", discountPercentage)
             if (!image) {
                 alert("هیچ فایلی انتخاب نشده");
                 return;
@@ -85,6 +89,7 @@ export default function CreateProductPage(){
             setCategory(res.data.category)
             setGender(res.data.gender)
             setBrand(res.data.brand)
+            setDiscountPercentage(res.data.discountPercentage)
         }
         catch(error){
             console.log(error)
@@ -97,6 +102,15 @@ export default function CreateProductPage(){
                 <input placeholder="عنوان محصول" value={title} onChange={(e) => setTitle(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2"/>
                 <textarea placeholder="توضیحات" value={description} onChange={(e) => setDescription(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2"/>
                 <input placeholder="قیمت" value={price} onChange={(e) => setPrice(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2"/>
+                <div className="flex flex-col">
+                    <input type="number" min={0} max={100} placeholder="درصد تخفیف" value={discountPercentage} onChange={(e) => setDiscountPercentage(e.target.value)} className="border rounded-lg px-4 py-2"/>
+                    <p className="text-green-600">
+                        قیمت بعد از تخفیف:
+                        {
+                            formatPrice(Number(price) - (Number(price) * Number(discountPercentage) / 100))
+                        }
+                    </p>
+                </div>
                 <input placeholder="موجودی" value={stock} onChange={(e) => setStock(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2"/>
 
                 <select value={category} onChange={(e) => setCategory(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2">

@@ -14,7 +14,7 @@ export default function PriceRange() {
 
   const [price, setPrice] = useState([
     Number(minPrice) || 0,
-    Number(maxPrice) || 10000000,
+    Number(maxPrice) || 100000000,
   ]);
   const [initialized, setInitialized] = useState(false);
 
@@ -49,7 +49,7 @@ export default function PriceRange() {
       <Slider
         value={price}
         min={0}
-        max={10000000}
+        max={100000000}
         step={500000}
         onValueChange={(value) => setPrice(value as number[])}
       />

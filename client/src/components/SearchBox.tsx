@@ -31,7 +31,7 @@ export default function SearchBox() {
         onChange={(e) => setQuery(e.target.value)}
       />
       {isSearching && (
-        <div className="absolute right-3 top-1/2 -translate-y-1/2">
+        <div className="absolute left-3 top-1/2 -translate-y-1/2">
           <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
         </div>
       )}   
