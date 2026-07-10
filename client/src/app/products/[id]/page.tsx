@@ -60,26 +60,11 @@ export default function ProductPage() {
     }
     }
     return (
-        <div className="my-4">
+        <main className="px-40 py-20">
             <div>
-                {product.title}
+                <img src={`http://localhost:5000/uploads/${product.image}`} width={200} className="h-145 w-145 object-cover rounded-lg"/>
             </div>
-            {product.stock > 0 ? (
-                <button
-                    onClick={addToCart}
-                    className="bg-blue-600 text-white px-5 py-2 rounded"
-                >
-                    افزودن به سبد خرید
-                </button>
-            ) : (
-                <button
-                    disabled
-                    className="bg-gray-400 text-white px-5 py-2 rounded cursor-not-allowed"
-                >
-                    ناموجود
-                </button>
-            )}
-        </div>
+        </main>
     )
 }
 

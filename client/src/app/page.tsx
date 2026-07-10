@@ -10,6 +10,8 @@ import useProductFilters from "@/hooks/useProductFilter";
 import { useSearch } from "@/context/SearchContext";
 import PriceRange from "@/components/filters/PriceRange";
 import ProductToggle from "@/components/filters/ProductToggle";
+import ProductCardSkeleton from "@/components/product/ProductCardSkeleton";
+
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [totalPages, setTotalPages] = useState(1);
@@ -64,7 +66,7 @@ export default function HomePage() {
   }
 
   return (
-    <main className="p-10 font-sans">
+    <main className="font-sans">
       <Navbar/>
       <div className="flex gap-5">
         <PriceRange/>
@@ -73,7 +75,7 @@ export default function HomePage() {
       <h1 className="text-4xl font-bold mb-10">
         فروشگاه ساعت
       </h1>
-      <div className="flex gap-4 mb-8">
+      <div className="grid grid-cols-2 gap-4 mb-8">
         <select
           value={category}
           onChange={(e) => updateParam("category", e.target.value)}
@@ -179,24 +181,20 @@ export default function HomePage() {
           </option>
         </select>
       </div>
-      {loading && (
-        <div className="fixed inset-0 bg-black/20 flex items-center justify-center z-50">
       
-        </div>
-      )} 
       <div
         className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-300 ${isSearching ? "opacity-40 pointer-events-none" : ""}`}>
         {isSearching && (
           <div className="fixed inset-0 bg-black/10 z-40 pointer-events-none"/>
         )}
-        {products.map((product) => (
-          <Link href={`/products/${product._id}`} key={product._id}>
-            <ProductCard
-              key={product._id}
-              product={product}
-            />
-          </Link>
-        ))}
+        {loading ? Array.from({ length: 9}).map((_ , index) => (
+            <ProductCardSkeleton key={index}/>)) : 
+            products.map((product) => (
+              <Link href={`/products/${product._id}`} key={product._id}>
+                <ProductCard product={product}/>
+              </Link>
+            ))
+          }
       </div>
       {products.length === 0 && !loading && (
         <div className="text-center py-20">
@@ -222,7 +220,6 @@ export default function HomePage() {
         >
           قبلی
         </button>
-
           {Array.from({ length: totalPages }, (_, index) => (
             <button
               key={index}
