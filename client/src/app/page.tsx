@@ -16,18 +16,12 @@ import HeroSection1 from "../../public/Image/back1.png"
 import HeroSection2 from "../../public/Image/back2.png"
 import Image from "next/image";
 import ProductSlider from "@/components/home/ProductSliderSection/ProductSlider";
+import HeroSection from "@/components/home/HeroSection";
 export default function HomePage() {
 
   return (
     <main className="font-sans">
-       <div className="relative h-[calc(100vh-110px)] inset-0">
-          <Image
-            src={HeroSection2}
-            alt=""
-            fill
-            className="object-cover object-left"
-          />
-        </div>
+       <HeroSection/>
         <ProductSlider/>
     </main>
   );
