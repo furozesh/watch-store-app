@@ -94,7 +94,7 @@ export default function Navbar() {
         
         <div className="flex items-center gap-4 shrink-0">
           {/* User */}
-          <a href="#" className="hidden lg:flex items-center gap-1.5 text-[#0f2d6b] hover:text-[#1a4ba8] transition-colors group">
+          <div className="hidden lg:flex items-center gap-1.5 text-[#0f2d6b] hover:text-[#1a4ba8] transition-colors group">
             <User size={20} />
             <span className="text-sm whitespace-nowrap">
               {user ? (
@@ -105,7 +105,7 @@ export default function Navbar() {
                 <Link href="/login">ورود</Link>
               )}
             </span>
-          </a>
+          </div>
 
           {/* Cart */}
           <a href="#" className="relative text-[#0f2d6b] hover:text-[#1a4ba8] transition-colors">

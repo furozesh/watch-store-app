@@ -48,7 +48,7 @@ export default function ProductCard({
       <img
         src={`http://localhost:5000/uploads/${product.image}`}
         alt={product.title}
-        width={200}
+
         className="w-full h-60 object-cover rounded-lg"
       />
 

@@ -98,7 +98,7 @@ export default function CreateProductPage(){
     return(
         <div style={{direction: "rtl"}} className="px-10">
             <h1 className="font-black text-2xl w-full flex justify-center mt-7 text-blue-950">ساخت محصول</h1>
-            <div className="my-10 flex justify-between items-start">
+            <div className="my-10 grid grid-cols-5 justify-between items-start">
                 <input placeholder="عنوان محصول" value={title} onChange={(e) => setTitle(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2"/>
                 <textarea placeholder="توضیحات" value={description} onChange={(e) => setDescription(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2"/>
                 <input placeholder="قیمت" value={price} onChange={(e) => setPrice(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2"/>
