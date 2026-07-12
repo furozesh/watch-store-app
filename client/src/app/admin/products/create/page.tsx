@@ -152,11 +152,23 @@ export default function CreateProductPage(){
                     <option value="Citizen">
                         Citizen
                     </option>
-                    <option value="Apple">
-                        Apple
+                    <option value="Omega">
+                        Omega
                     </option>
-                    <option value="Samsung">
-                        Samsung
+                    <option value="Cartier">
+                        Cartier
+                    </option>
+                    <option value="Longines">
+                        Longines
+                    </option>
+                    <option value="Tissot">
+                        Tissot
+                    </option>
+                    <option value="Breguet">
+                        Breguet
+                    </option>
+                    <option value="Tudor">
+                        Tudor
                     </option>
 
                 </select>

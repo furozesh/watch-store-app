@@ -48,8 +48,8 @@ const productSchema = new mongoose.Schema(
         },
         brand: {
             type: String,
-            enum: ["Casio", "Rolex", "Seiko", "Citizen", "Apple", "Samsung"]
-        }
+            enum: ["Casio", "Rolex", "Seiko", "Citizen", "Omega" , "Cartier", "Longines", "Tissot", "Breguet", "Tudor" ]
+        },
     },
     {
         timestamps: true,
