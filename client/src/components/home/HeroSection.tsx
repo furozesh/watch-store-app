@@ -9,16 +9,16 @@ export default function HeroSection() {
             src={HeroSection2}
             alt=""
             fill
-            className="object-cover object-left"
+            className="object-cover object-right"
         />
         
       <div className='relative z-10 h-full max-w-7xl mx-auto px-6 flex items-center'>
         <div className='max-w-2xl'>
             <span className='text-sm text-gray-300'>مجموعه منتخب ۱۴۰۵</span>
-            <h1 className='mt-6 lg:text-5xl md:text-2xl text-lg font-bold text-white'>
+            <h1 className='mt-6 lg:text-5xl text-2xl font-bold text-white'>
               برندهای محبوب
               <br />
-              <p className='text-white mt-5'>انتخابی <span className='text-[#C4A35A]'>ماندگــــار</span></p>
+              <p className='text-white lg:mt-5 mt-1'>انتخابی <span className='text-[#C4A35A]'>ماندگــــار</span></p>
             </h1>
             <p className='mt-8 text-base text-gray-200 max-w-xl'>
                 چرونکس مجموعه‌ای از ساعت‌های کلاسیک، هوشمند و اسپرت
@@ -26,7 +26,7 @@ export default function HeroSection() {
                 در اختیار شما قرار می‌دهد.
             </p>
             <div className='flex gap-5 mt-10'>
-              <Link href={'/products'} className='px-8 py-4 bg-white text-black font-semibold hover:bg-gray-200 transition'>مشاهده محصولات</Link>
+              <Link href={'/products'} className='px-8 py-4 sm:text-base text-sm bg-white text-black font-semibold hover:bg-gray-200 transition'>مشاهده محصولات</Link>
               <Link href={'/about-us'} className='px-8 py-4 border border-white text-white hover:border-[#C4A35A] transition'>درباره ما</Link>
             </div>
         </div>

@@ -58,6 +58,7 @@ const getProducts = async(req , res) => {
         }
         const currentPage = Number(page)
         const pageSize = Number(limit)
+
         const totalProducts = await Product.countDocuments(filter)
         let sortOption = {
             createdAt: -1

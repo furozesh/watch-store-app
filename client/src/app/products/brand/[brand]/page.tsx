@@ -9,12 +9,8 @@ import { Product } from "@/types/product";
 
 export default function BrandPage() {
   const [products, setProducts] = useState<Product[]>([]);
-
   const { brand } = useParams<{ brand: string }>();
-
   useEffect(() => {
-    if (!brand) return;
-
     axios
       .get("http://localhost:5000/api/products", {
         params: {
