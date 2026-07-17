@@ -5,7 +5,8 @@ import { useEffect, useState } from "react"
 import Link from "next/link"
 import LatestOrders from "@/components/admin/LatestOrders"
 import StatCard from "@/components/admin/StatsCard"
-import { Box, Eye, ShoppingBag, User, Users, Wallet } from "lucide-react"
+import { Box, Eye, ShoppingBag, Tag, User, Users, Wallet } from "lucide-react"
+import { formatPrice } from "@/utils/formatPrice"
 
 interface DashboardData {
   visitors:number;
@@ -33,6 +34,10 @@ export default function Page(){
     }
     setAuthorized(true);
   }, []);
+  const logout = () => {
+    localStorage.removeItem("token")
+    window.location.reload()
+  }
 
 
   useEffect(() => {
@@ -64,8 +69,8 @@ export default function Page(){
 
   return (
     <div className="max-w-7xl mx-auto px-5 py-10">
-      <h1 className="text-3xl font-black text-blue-950 mb-2"> پنل مدیریت Chronex </h1>
-      <p className="text-slate-500 mb-8"> خوش آمدید 👋</p>
+      <h1 className="text-2xl font-black text-blue-950 mb-2"> پنل مدیریت Chronex </h1>
+      <p className="text-slate-500 mb-8"> خوش آمدید </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <StatCard
           title="بازدیدکنندگان"
@@ -80,7 +85,7 @@ export default function Page(){
         <StatCard
           title="محصولات"
           value={dashboard.products}
-          icon={<Box/>}
+          icon={<Tag/>}
         />
         <StatCard
           title="سفارشات"
@@ -88,27 +93,30 @@ export default function Page(){
           icon={<ShoppingBag/>}
         />
       </div>
-      <div className="mt-5 grid grid-cols-1 lg:grid-cols-3 gap-5">
+      <div className="mt-5 grid grid-cols-1 lg:grid-cols-4 gap-5">
         <div className="lg:col-span-1">
           <StatCard
             title="درآمد کل"
-            value={(dashboard.revenue || 0).toLocaleString()+ " تومان"}
+            value={(formatPrice(dashboard.revenue || 0))}
             icon={<Wallet/>}
           />
         </div>
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-3">
           <LatestOrders
             orders={dashboard.latestOrders}
           />
         </div>
       </div>
       <div className="mt-8 flex flex-wrap gap-4">
-          <Link href="/admin/orders" className="bg-blue-950 text-white px-5 py-3 rounded-xl hover:bg-blue-800 transition">
+          <Link href="/admin/orders" className="bg-blue-950 text-white px-5 py-3 rounded-xl transition cursor-pointer">
             مدیریت سفارشات
           </Link>
-          <Link href="/admin/feedbacks" className="bg-blue-950text-white px-5 py-3 rounded-xl hover:bg-blue-800 transition">
+          <Link href="/admin/feedbacks" className="bg-blue-950 text-white px-5 py-3 rounded-xl transition cursor-pointer">
             انتقادات و پیشنهادات
           </Link>
+          <button onClick={logout} className="bg-blue-950 text-white px-5 py-3 rounded-xl transition cursor-pointer">
+             خروج از حساب
+          </button>
       </div>
     </div>
   )

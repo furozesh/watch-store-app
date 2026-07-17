@@ -29,7 +29,7 @@ const getDashboard = async(req, res) => {
             .sort({
                 createdAt: -1
             })
-            .limit(5);
+            .limit(3);
         res.status(200).json({
             visitors: totalVisitors,
             users: totalUsers,
