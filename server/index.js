@@ -4,6 +4,8 @@ const express = require("express")
 const connectDB = require("./config/db")
 const cors = require("cors")
 
+const dashboardRoute = require("./routes/dashboardRoute")
+const statsRoute = require("./routes/statsRoute")
 const authRoutes = require("./routes/authRoute")
 const productRoutes = require("./routes/productRoutes")
 const cartRoutes = require("./routes/cartRoute")
@@ -38,6 +40,14 @@ app.use(
 app.use(
     "/api/addresses",
     addressRoutes
+)
+app.use(
+    "/api/stats",
+    statsRoute
+)
+app.use(
+    "/api/admin/dashboard",
+    dashboardRoute
 )
 console.log("env",process.env.JWT_SECRET)
 app.listen(5000 , () => {

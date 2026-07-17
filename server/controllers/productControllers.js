@@ -105,14 +105,30 @@ const getProducts = async(req , res) => {
     }
 }
 
-const deleteProduct = async(req , res) => {
-    try{
-        await Product.findByIdAndDelete(req.params.id)
+const deleteProduct = async (req, res) => {
+    try {
+        const productId = req.params.id;
+        const product = await Product.findById(productId);
+        if (!product) {
+            return res.status(404).json({
+                message: "Product not found."
+            });
+        }
+        await Product.findByIdAndDelete(productId);
+        await Cart.updateMany(
+            {},
+            {
+                $pull: {
+                    items: {
+                        product: productId
+                    }
+                }
+            }
+        );
         res.status(200).json({
-            message: "Product Deleted."
-        })
-    }
-    catch(error){
+            message: "Product deleted successfully."
+        });
+    } catch (error) {
         res.status(500).json({
             message: error.message
         });

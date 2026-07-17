@@ -108,7 +108,7 @@ export default function Navbar() {
           </div>
 
           {/* Cart */}
-          <a href="#" className="relative text-[#0f2d6b] hover:text-[#1a4ba8] transition-colors">
+          <a href="/cart" className="relative text-[#0f2d6b] hover:text-[#1a4ba8] transition-colors">
             <ShoppingCart size={20} />
             {cartCount > 0 && (
               <span className="absolute -top-1.5 -left-1.5 bg-[#0f2d6b] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center">

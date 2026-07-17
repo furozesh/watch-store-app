@@ -64,6 +64,14 @@ export default function ProductPage() {
             <div>
                 <img src={`http://localhost:5000/uploads/${product.image}`} width={200} className="h-145 w-145 object-cover rounded-lg"/>
             </div>
+            <button 
+    onClick={addToCart}
+    disabled={product.stock === 0}
+    className={product.stock === 0 ? "bg-gray-400" : "bg-blue-500"}
+>
+    {product.stock === 0 ? "ناموجود" : "افزودن به سبد خرید"}
+</button>
+
         </main>
     )
 }

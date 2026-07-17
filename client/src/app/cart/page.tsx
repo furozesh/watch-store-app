@@ -1,4 +1,5 @@
 "use client"
+import { formatPrice } from "@/utils/formatPrice";
 import axios from "axios";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -79,7 +80,13 @@ export default function CartPage(){
         console.log(error)
       }
     }
-    const totalPrice = cart?.items.reduce((acc,item) => acc + item.product.price * item.quantity, 0 ) || 0;
+    const totalPrice = cart?.items.reduce(  
+      (acc,item) => {
+        if(!item.product) return acc;
+        return acc + item.product.price * item.quantity
+      },
+      0
+    ) || 0;
     if(!cart){
         return <div className="p-10">Loading..</div>
     }
@@ -99,8 +106,7 @@ export default function CartPage(){
         </p>
       ) : (
         <>
-          {cart.items.map((item) => (
-
+          {cart.items.filter((item) => item.product).map((item) => {
             <div
               key={item.product._id}
               className="border rounded-lg p-4 mb-4 flex justify-between items-center"
@@ -138,15 +144,14 @@ export default function CartPage(){
               </button>
 
             </div>
-
-          ))}
+          })}
 
           <div className="mt-8">
 
             <h2 className="text-2xl font-bold">
               جمع کل:
               {" "}
-              {totalPrice}
+              {formatPrice(totalPrice)}
             </h2>
 
             <Link href={"/checkout"}>

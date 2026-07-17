@@ -41,7 +41,16 @@ const getCart = async(req, res) => {
         if (!cart) {
             return res.status(200).json({ items: [] });
         }
-        res.status(200).json(cart);
+        const validItems = cart.items.filter(item => item.product !== null)
+        if(validItems.length !== cart.items.length){
+            cart.items = validItems;
+            await cart.save()
+
+            cart = await Cart.findOne({
+                user: req.user.id
+            }).populate("items.product")
+        }
+        res.status(200).json(cart)
     }
     catch(error){
         res.status(500).json({ message: error.message })
@@ -52,7 +61,13 @@ const removeFromCart = async(req, res) => {
         const cart = await Cart.findOne({
             user: req.user.id,
         })
-        cart.items = cart.items.filter(item => item.product.toString() !== req.params.productId)
+        if(!cart) {
+            return res.status(404).json({
+                message: "Cart not founf"
+            })
+        }
+
+        cart.items = cart.items.filter(item => item.product && item.product.toString() !== req.params.productId)
         await cart.save();
 
         res.status(200).json({
@@ -67,15 +82,20 @@ const removeFromCart = async(req, res) => {
 }
 const getCartCount = async(req, res) => {
     try{
-        const cart = await Cart.findOne({
+        let cart = await Cart.findOne({
             user: req.user.id
-        })
+        }).populate("items.product")
         if(!cart){
             return res.json({
                 count: 0,
             })
         }
-        const count = cart.items.reduce((sum , item) => sum + item.quantity, 0);
+        const validItems = cart.items.filter(item => item.product)
+        if(validItems.length !== cart.items.length){
+            cart.items = validItems;
+            await cart.save()
+        }
+        const count = validItems.reduce((sum , item) => sum + item.quantity, 0)
         res.json({count})
     }catch(error){
         res.status(500).json({
