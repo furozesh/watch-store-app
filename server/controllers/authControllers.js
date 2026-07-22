@@ -16,8 +16,6 @@ const sendOTP = async (req, res) => {
         user.otpExpires = Date.now() + 2 * 60 * 1000;
         await user.save();
 
-        console.log("OTP:", otp);
-
         return res.status(200).json({
             message: "OTP sent",
             otp,

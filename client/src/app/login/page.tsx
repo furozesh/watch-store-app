@@ -3,7 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { jwtDecode } from "jwt-decode";
-import axios from "axios";
+import {toast} from 'sonner'
+import axios, {AxiosError} from "axios";
 import { ArrowLeft, Phone, ShieldCheck } from "lucide-react";
 import OTPInput from "@/components/OTPInput";
 
@@ -24,6 +25,10 @@ export default function LoginPage() {
   const router = useRouter()
   // SEND OTP
   const sendOTP = async () => {
+     if (!/^09\d{9}$/.test(phone)) {
+        toast.error("شماره موبایل معتبر نیست.");
+        return;
+    }
     try {
       setLoading(true);
       const res = await axios.post(
@@ -32,19 +37,26 @@ export default function LoginPage() {
           phone,
         }
       );
-      console.log(res.data);
-      alert("OTP Sent");
+      console.log("OTP:", res.data.otp)
+      console.log("OTP:", otp)
+      toast.success("کد تایید با موفقیت ارسال شد.")
       setStep(2);
+      setOtp("")
       setTimeLeft(120);
       setCanResend(false);
     } catch (error) {
-      console.log(error);
+      const err = error as AxiosError<{message: string}>;
+      toast.error(err.response?.data.message || "ارسال کد با خطا مواجه شد")
     } finally {
       setLoading(false);
     }
   };
   // VERIFY OTP
   const verifyOTP = async () => {
+    if(otp.length !== 6){
+      toast.error("کد تایید باید 6 رقم باشد")
+      return
+    }
     try {
       setLoading(true);
 
@@ -62,18 +74,39 @@ export default function LoginPage() {
         "token",
         res.data.token
       );
+      toast.success("ورود با موفقیت انجام شد")
+      window.dispatchEvent(new Event('login'))
       const user = jwtDecode<MyJwtPayload>(
         res.data.token
       )
-      console.log(user)
-      if(user.role === "admin"){
-        router.push("/admin")
-      } else {
-        router.push("/")
-      }
-      alert("Login Successful");
+      setTimeout(() => {
+        if(user.role === "admin"){
+          router.push("/admin")
+        } else {
+          router.push("/")
+        }
+      },1000)
     } catch (error) {
-      console.log(error);
+      const err = error as AxiosError<{message: string}>;
+      setOtp("")
+      switch(err.response?.status){
+        case 400:
+          if (err.response.data.message === "Invalid OTP") {
+            toast.error("کد وارد شده اشتباه است.");
+          }
+          else if (err.response.data.message === "OTP Expired") {
+            toast.warning("زمان اعتبار کد به پایان رسیده است.");
+          }
+          else {
+            toast.error("اطلاعات وارد شده صحیح نیست.");
+          }
+          break;
+        case 404: 
+        toast.error("کاربری پیدا نشد.");
+        break;
+      default:
+        toast.error("خطایی رخ داده است.");
+      }
     } finally {
       setLoading(false);
     }
@@ -152,7 +185,10 @@ export default function LoginPage() {
                 </span>
               </p>
             ) : (
-              <button onClick={sendOTP} className="text-blue-900 font-normal hover:text-blue-950 cursor-pointer"> ارسال مجدد کد </button>
+              <button onClick={() => {
+                setOtp("")
+                sendOTP()
+              }} className="text-blue-900 font-normal hover:text-blue-950 cursor-pointer"> ارسال مجدد کد </button>
             )}
           </div>
           <button onClick={verifyOTP} disabled={loading } className="w-full rounded-xl cursor-pointer bg-blue-950 text-white font-semibold py-3 transition disabled:opacity-60">

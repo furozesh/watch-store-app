@@ -8,13 +8,13 @@ import AboutUs from "@/components/home/AboutUs";
 export default function HomePage() {
 
   return (
-    <main className="font-sans">
-        <HeroSection/>
-        <ProductSlider/>
-        <BrandsSection/>
-        <CategoriesSection/>
-        <AboutUs/>
-        <div className="py-80 text-[#F6F5F2]"></div>
-    </main>
+    <>
+      <HeroSection/>
+      <ProductSlider/>
+      <BrandsSection/>
+      <CategoriesSection/>
+      <AboutUs/>
+      <div className="bg-white py-20"></div>
+    </>
   );
 }
