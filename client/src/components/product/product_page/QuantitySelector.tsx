@@ -6,9 +6,9 @@ interface QuantitySelectorProps {
   setQuantity: React.Dispatch<React.SetStateAction<number>>;
   stock: number;
 }
-export default function QuantitySelector({ quantity, setQuantity, stock}: QuantitySelectorProps) {
-
-  const maxQuantity = Math.min(stock, 3);
+export default function QuantitySelector({ quantity, setQuantity, stock }: QuantitySelectorProps) {
+  const MAX_PER_ORDER = 3
+  const maxQuantity = Math.min(stock, MAX_PER_ORDER);
   return (
     <div className="flex items-center rounded-xl border border-slate-200 overflow-hidden w-fit bg-white shadow-sm">
       <button

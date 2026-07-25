@@ -3,6 +3,7 @@
 import ProductGallery from "@/components/product/product_page/ProductGallery"
 import ProductInfo from "@/components/product/product_page/ProductInfo"
 import QuantitySelector from "@/components/product/product_page/QuantitySelector"
+import Reviews from "@/components/product/product_page/Reviews"
 import axios from "axios"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -52,7 +53,8 @@ export default function ProductPage() {
             await axios.post(
                 "http://localhost:5000/api/cart/add",
                 {
-                    productId: product._id
+                    productId: product._id,
+                    quantity
                 },
                 {
                     headers: {
@@ -69,7 +71,7 @@ export default function ProductPage() {
         }
     }
     return (
-        <section className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 px-20 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 px-20 py-12">
 
             <ProductGallery
                 title={product.title}
@@ -87,8 +89,12 @@ export default function ProductPage() {
                 discountPercentage={product.discountPercentage}
                 rating={product.rating}
                 reviewsCount={product.reviewsCount}
+                onAddToCart={addToCart}
+                quantity={quantity}
+                setQuantity={setQuantity}
             />
-        </section>
+            <Reviews productId={product._id}/>
+        </div>
     )
 }
 

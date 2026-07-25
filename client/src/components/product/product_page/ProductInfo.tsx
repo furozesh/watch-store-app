@@ -1,8 +1,7 @@
 'use client'
-import { ShoppingCart, Star, ChevronLeft, Check, Heart, Share2, MessageCircle, Send, Package, Shield, RefreshCw } from "lucide-react";
+import { ShoppingCart, Star, Package, Shield, RefreshCw } from "lucide-react";
 import { formatPrice } from "@/utils/formatPrice";
 import QuantitySelector from "./QuantitySelector";
-import { useState } from "react";
 
 interface ProductInfoProps {
   title: string;
@@ -13,6 +12,9 @@ interface ProductInfoProps {
   discountPercentage?: number;
   rating: number;
   reviewsCount: number;
+  onAddToCart: () => void
+  quantity: number
+  setQuantity: React.Dispatch<React.SetStateAction<number>>
 }
 
 export default function ProductInfo({
@@ -24,10 +26,12 @@ export default function ProductInfo({
   discountPercentage = 0,
   rating,
   reviewsCount,
+  onAddToCart,
+  quantity,
+  setQuantity
 }: ProductInfoProps) {
 
   const finalPrice = discountPercentage > 0 ? price - (price * discountPercentage) / 100 : price;
-  const [quantity, setQuantity] = useState(1);
   return (
     <div className="flex flex-col gap-4">
       <div className="flex items-start justify-between gap-3">
@@ -93,11 +97,14 @@ export default function ProductInfo({
       </p>
       <div className="flex items-center gap-3 mt-4">
         <button
-          className={`flex-1 h-11 rounded-xl text-[14px] transition-all duration-300 flex items-center justify-center gap-2 bg-[#1b3a6b] text-white hover:bg-[#2952a3]`}
+          className={`flex-1 h-11 rounded-xl text-[14px] transition-all duration-300 flex items-center justify-center gap-2 cursor-pointer ${stock > 0 ? 'bg-[#1b3a6b] text-white hover:bg-[#2951a3]' : 'bg-gray-300 cursor-not-allowed text-gray-500'}`}
+          onClick={onAddToCart}
+          disabled={stock === 0}
+
         >
           <ShoppingCart size={16} />افزودن به سبد خرید
         </button>
-        <QuantitySelector quantity={1} setQuantity={setQuantity} stock={stock} />
+        <QuantitySelector quantity={quantity} setQuantity={setQuantity} stock={stock} />
       </div>
 
       <div className="grid grid-cols-3 gap-2 pt-1">

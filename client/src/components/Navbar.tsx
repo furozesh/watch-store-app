@@ -17,6 +17,7 @@ export default function Navbar() {
   ];
   const [user , setUser] = useState<userLogin | null>(null)
   const [cartCount , setCartCount] = useState(0)
+  
   const [mobileOpen, setMobileOpen] = useState(false);
   
   useEffect(() => {
@@ -67,6 +68,7 @@ export default function Navbar() {
         }
       )
       setCartCount(res.data.count)
+      console.log('cart count:', res.data.count)
     }catch(error){
       console.log(error)
     }

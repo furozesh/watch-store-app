@@ -5,7 +5,9 @@ const {
     addToCart,
     getCart,
     removeFromCart,
-    getCartCount
+    getCartCount,
+    updateCartQuantity,
+    clearCart
 } = require('../controllers/cartController')
 
 router.post(
@@ -28,5 +30,14 @@ router.get(
     authMiddleware,
     getCartCount
 )
-
+router.patch(
+    '/:productId',
+    authMiddleware,
+    updateCartQuantity
+)
+router.delete(
+    '/',
+    authMiddleware,
+    clearCart
+)
 module.exports = router;
