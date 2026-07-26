@@ -85,7 +85,7 @@ const updateReviewStatus = async(req, res) => {
         .populate('user', 'fullName')
         .populate('product', 'title');
 
-        if(!receive) {
+        if(!review) {
             return res.status(404).json({
                 message: 'نظر مورد نظر پیدا نشد.'
             });

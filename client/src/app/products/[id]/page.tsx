@@ -71,29 +71,30 @@ export default function ProductPage() {
         }
     }
     return (
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 px-20 py-12">
-
-            <ProductGallery
-                title={product.title}
-                discountPercentage={product.discountPercentage}
-                images={[
-                    `http://localhost:5000/uploads/${product.image}`
-                ]}
-            />
-            <ProductInfo
-                title={product.title}
-                brand={product.brand}
-                category={product.category}
-                stock={product.stock}
-                price={product.price}
-                discountPercentage={product.discountPercentage}
-                rating={product.rating}
-                reviewsCount={product.reviewsCount}
-                onAddToCart={addToCart}
-                quantity={quantity}
-                setQuantity={setQuantity}
-            />
-            <Reviews productId={product._id}/>
+        <div className="sm:px-20 px-8 py-12">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 ">
+                <ProductGallery
+                    title={product.title}
+                    discountPercentage={product.discountPercentage}
+                    images={[
+                        `http://localhost:5000/uploads/${product.image}`
+                    ]}
+                />
+                <ProductInfo
+                    title={product.title}
+                    brand={product.brand}
+                    category={product.category}
+                    stock={product.stock}
+                    price={product.price}
+                    discountPercentage={product.discountPercentage}
+                    rating={product.rating}
+                    reviewsCount={product.reviewsCount}
+                    onAddToCart={addToCart}
+                    quantity={quantity}
+                    setQuantity={setQuantity}
+                />
+            </div>
+            <Reviews productId={product._id} />
         </div>
     )
 }
