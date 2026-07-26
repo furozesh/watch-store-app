@@ -111,24 +111,6 @@ export default function CartPage() {
       console.log(error)
     }
   }
-  const createOrder = async () => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.post(
-        "http://localhost:5000/api/orders",
-        {},
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
-        }
-      )
-      alert("سفارش ثبت شد")
-      fetchCart()
-    } catch (error) {
-      console.log(error)
-    }
-  }
 
   if (loading) {
     return <div className="py-20 text-center">درحال بارگذاری...</div>
@@ -178,6 +160,7 @@ export default function CartPage() {
         totalItems={totalItems}
         totalPrice={totalPrice}
         onClearCart={clearCart}
+        totalDiscount={totalDiscount}
       />
     </section>
   );

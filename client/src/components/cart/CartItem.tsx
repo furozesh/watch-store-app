@@ -31,20 +31,19 @@ export default function CartItem({
 
     const totalPrice = finalPrice * item.quantity;
     return (
-        <div className="flex items-center gap-5 bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+        <div className="grid sm:grid-cols-4  sm:justify-between items-center gap-5 bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
             {/* image */}
-            <div className="relative w-28h-28 rounded-xl overflow-hidden bg-slate-100">
-                <Image
+            <div className="relative sm:col-span-1 h-20 w-20 sm:w-28 sm:h-28 rounded-xl overflow-hidden bg-slate-100 aspect-square flex justify-center items-center">
+                <img
                     src={`http://localhost:5000/uploads/${item.product.image}`}
                     alt={item.product.title}
-                    fill
-                    className="object-cover"
+                    className="w-full object-cover "
                 />
             </div>
 
             {/* info */}
-            <div className="flex-1 space-y-2">
-                <h3 className="font-bold text-blue-950 text-lg">
+            <div className="flex-1 space-y-2 sm:col-span-2">
+                <h3 className=" font-normal sm:font-bold text-blue-950 text-sm sm:text-lg">
                     {item.product.title}
                 </h3>
                 {item.product.discountPercentage > 0 && (
@@ -53,7 +52,7 @@ export default function CartItem({
                     </p>
                 )}
 
-                <p className="font-bold text-[#1b3a6b]">
+                <p className="font-normal text-sm sm:font-bold text-[#1b3a6b]">
                     {formatPrice(finalPrice)}
                 </p>
 
@@ -63,35 +62,37 @@ export default function CartItem({
                 </p>
             </div>
 
-            {/* quantity */}
-            <div className="flex items-center rounded-xl border overflow-hidden">
-                <button
-                    onClick={onDecrease}
-                    disabled={item.quantity === 1}
-                    className="w-10 h-10 flex items-center justify-center hover:bg-slate-100 disabled:opacity-40">
-                    <Minus size={16} />
-                </button>
+            <div className="sm:col-span-1 grid grid-cols-2">
+                {/* quantity */}
+                <div className="flex items-center justify-center col-span-1 rounded-xl border overflow-hidden">
+                        <button
+                            onClick={onDecrease}
+                            disabled={item.quantity === 1}
+                            className="w-10 h-10 flex items-center justify-center hover:bg-slate-100 disabled:opacity-40">
+                            <Minus size={14} />
+                        </button>
 
-                <span className=" w-12 text-center font-bold">
-                    {item.quantity}
-                </span>
+                        <span className=" w-12 text-center font-normal sm:font-bold sm:text-base text-sm">
+                            {item.quantity}
+                        </span>
 
+                        <button
+                            onClick={onIncrease}
+                            disabled={item.quantity >= Math.min(item.product.stock, 3)}
+                            className="w-10 h-10 flex items-center justify-center hover:bg-slate-100 disabled:opacity-40"
+                        >
+                            <Plus size={14} />
+                        </button>
+                </div>
+
+                {/* delete */}
                 <button
-                    onClick={onIncrease}
-                    disabled={item.quantity >= Math.min(item.product.stock, 3)}
-                    className="w-10 h-10 flex items-center justify-center hover:bg-slate-100 disabled:opacity-40"
+                    onClick={onRemove}
+                    className="flex sm:justify-evenly justify-end text-red-500 col-span-1 cursor-pointer p-3 rounded-xl transition"
                 >
-                    <Plus size={16} />
+                    <Trash2 size={20} />
                 </button>
             </div>
-
-            {/* delete */}
-            <button
-                onClick={onRemove}
-                className="text-red-500 hover:bg-red-50 p-3 rounded-xl transition"
-            >
-                <Trash2 size={20} />
-            </button>
         </div>
     )
 }
