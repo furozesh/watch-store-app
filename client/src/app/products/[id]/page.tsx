@@ -7,6 +7,7 @@ import Reviews from "@/components/product/product_page/Reviews"
 import axios from "axios"
 import { useParams } from "next/navigation"
 import { useEffect, useState } from "react"
+import { toast } from "sonner"
 interface ProductProps {
     _id: string
     title: string
@@ -46,7 +47,7 @@ export default function ProductPage() {
         try {
             const token = localStorage.getItem("token");
             if (!token) {
-                alert("ابتدا وارد حساب کاربری شوید.")
+                toast.warning("ابتدا وارد حساب کاربری شوید.")
                 window.location.href = "/login"
                 return;
             }
@@ -62,7 +63,7 @@ export default function ProductPage() {
                     },
                 }
             )
-            alert("محصول به سبد خرید اضافه شد.")
+            toast.success("محصول به سبد خرید اضافه شد.")
             window.dispatchEvent(
                 new Event("cartUpdated")
             )

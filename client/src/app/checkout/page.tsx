@@ -3,6 +3,7 @@
 import axios from "axios";
 import { CheckCircle, MapPin, Phone, Truck, User } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface Address {
   _id: string;
@@ -48,7 +49,7 @@ export default function CheckoutPage() {
 
     if (!selectedAddress) {
 
-      alert("آدرس انتخاب نشده");
+      toast.error("آدرس انتخاب نشده");
 
       return;
     }
@@ -68,7 +69,7 @@ export default function CheckoutPage() {
       }
     );
 
-    alert("سفارش ثبت شد");
+    toast.success("سفارش ثبت شد");
 
     window.location.href =
       "/dashboard?tab=orders";

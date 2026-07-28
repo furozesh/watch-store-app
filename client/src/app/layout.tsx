@@ -30,7 +30,7 @@ export default function RootLayout({
               className={vazir.className}
               toastOptions={{
                 classNames: {
-                  toast:` rounded-2xl border shadow-xl text-sm ${vazir.className}`,
+                  toast:` rounded-3xl border shadow-lg text-base ${vazir.className}`,
                   title: "font-semibold",
                   description: "text-slate-500",
                   success: "!bg-emerald-50 !border-emerald-200",

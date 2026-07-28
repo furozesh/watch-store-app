@@ -11,9 +11,9 @@ interface userLogin {
 }
 export default function Navbar() {
   const navLinks = [
-    { label: "محصولات", href: "#" },
-    { label: "برندها", href: "#" },
-    { label: "درباره ما", href: "#" },
+    { label: "محصولات", href: "/#products" },
+    { label: "برندها", href: "/#brands" },
+    { label: "درباره ما", href: "/#about-us" },
   ];
   const [user , setUser] = useState<userLogin | null>(null)
   const [cartCount , setCartCount] = useState(0)
@@ -123,14 +123,14 @@ export default function Navbar() {
       <div className="hidden lg:flex max-w-6xl mx-auto px-6 border-t border-[rgba(15,45,107,0.07)]">
         <div className="flex items-center gap-1 mx-auto">
           {navLinks.map(({ label, href }) => (
-            <a
+            <Link
               key={label}
               href={href}
               className="px-5 py-3 text-sm font-medium text-[#5a6a8a] hover:text-[#0f2d6b] hover:bg-[#eef1f7] rounded-md transition-all relative group"
             >
               {label}
               <span className="absolute bottom-0 right-1/2 translate-x-1/2 w-0 h-0.5 bg-[#0f2d6b] group-hover:w-4/5 transition-all duration-300 rounded-full" />
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -142,9 +142,9 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="lg:hidden absolute top-full left-0 right-0 border-t border-b shadow-xl border-[rgba(15,45,107,0.08)] bg-white px-4 pb-4 pt-2 flex flex-col gap-1">
           {navLinks.map(({ label, href }) => (
-            <a key={label} href={href} className="px-4 py-2.5 text-sm font-medium text-[#0a1628] hover:bg-[#eef1f7] rounded-lg transition-colors">
+            <Link key={label} href={href} className="px-4 py-2.5 text-sm font-medium text-[#0a1628] hover:bg-[#eef1f7] rounded-lg transition-colors">
               {label}
-            </a>
+            </Link>
           ))}
           <hr className="border-[rgba(15,45,107,0.1)] my-1" />
           <Link href="" className="px-4 py-2.5 text-sm font-medium text-[#0f2d6b] hover:bg-[#eef1f7] rounded-lg transition-colors flex items-center gap-2">

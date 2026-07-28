@@ -37,7 +37,7 @@ export default function ProductSlider() {
   }
 
   return (
-    <section className="py-24 lg:px-20 md:px-12">
+    <section id="products" className="py-24 lg:px-20 md:px-12 scroll-mt-8">
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex items-end justify-between mb-12">
           <div>

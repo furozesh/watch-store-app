@@ -5,6 +5,7 @@ import { useState } from "react"
 import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { formatPrice } from "@/utils/formatPrice"
+import { toast } from "sonner"
 
 export default function CreateProductPage(){
     const searchParams = useSearchParams()
@@ -45,7 +46,7 @@ export default function CreateProductPage(){
                         }
                     }
                 );
-                alert("محصول ویرایش شد.")
+                toast.success("محصول ویرایش شد.")
                 return;
             }
             const formData = new FormData()
@@ -58,7 +59,7 @@ export default function CreateProductPage(){
             formData.append("brand", brand)
             formData.append("discountPercentage", discountPercentage)
             if (!image) {
-                alert("هیچ فایلی انتخاب نشده");
+                toast.warning("هیچ فایلی انتخاب نشده");
                 return;
             }
             formData.append("image", image);
@@ -71,7 +72,7 @@ export default function CreateProductPage(){
                 }
             
             )
-            alert("محصول به سایت اضافه شد.")
+            toast.success("محصول به سایت اضافه شد.")
         } 
         catch(error){
             console.log(error)

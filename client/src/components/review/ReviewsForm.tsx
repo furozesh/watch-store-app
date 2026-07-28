@@ -3,6 +3,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { Star, Send } from "lucide-react";
+import { toast } from "sonner";
 
 interface Props {
   productId: string;
@@ -20,19 +21,19 @@ export default function ReviewForm({
 
   const submitReview = async () => {
     if (rating === 0) {
-      alert("لطفا امتیاز را انتخاب کنید.");
+      toast.warning("لطفا امتیاز را انتخاب کنید.");
       return;
     }
 
     if (!comment.trim()) {
-      alert("نظر خود را بنویسید.");
+      toast.warning("نظر خود را بنویسید.");
       return;
     }
 
     const token = localStorage.getItem("token");
 
     if (!token) {
-      alert("ابتدا وارد حساب کاربری شوید.");
+      toast.warning("ابتدا وارد حساب کاربری شوید.");
       return;
     }
 
@@ -53,7 +54,7 @@ export default function ReviewForm({
         }
       );
 
-      alert("نظر شما ثبت شد و پس از تایید مدیر نمایش داده خواهد شد.");
+      toast.success("نظر شما ثبت شد و پس از تایید مدیر نمایش داده خواهد شد.");
 
       setRating(0);
       setHover(0);
@@ -61,7 +62,7 @@ export default function ReviewForm({
 
       onSuccess();
     } catch (error: any) {
-      alert(
+      toast.error(
         error.response?.data?.message ||
           "خطایی رخ داده است."
       );

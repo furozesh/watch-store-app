@@ -6,6 +6,7 @@ import ReviewSummary from "@/components/review/ReviewSummry";
 import axios from "axios";
 import { Star } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 interface Review {
     _id: string;
@@ -52,7 +53,7 @@ export default function ProductReviews({
 
     const submitReview = async () => {
         if (!rating || !comment.trim()) {
-            alert("لطفاً امتیاز و متن نظر را وارد کنید.");
+            toast.warning("لطفاً امتیاز و متن نظر را وارد کنید.");
             return;
         }
         try {
@@ -60,7 +61,7 @@ export default function ProductReviews({
             const token = localStorage.getItem("token");
 
             if (!token) {
-                alert("ابتدا وارد حساب کاربری شوید.");
+                toast.warning("ابتدا وارد حساب کاربری شوید.");
                 return;
             }
             await axios.post(
@@ -75,13 +76,13 @@ export default function ProductReviews({
                     },
                 }
             );
-            alert(
+            toast.success(
                 "نظر شما ثبت شد و پس از تایید مدیر نمایش داده خواهد شد."
             );
             setRating(0);
             setComment("");
         } catch (error: any) {
-            alert(
+            toast.error(
                 error.response?.data?.message ||
                 "خطایی در ثبت نظر رخ داد."
             );

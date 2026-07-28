@@ -4,10 +4,12 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html {
+  scroll-behavior: smooth;
+}
 @theme {
     --font-sans: var(--font-vazirmatn);
 }
-
 @theme inline {
     --font-heading: var(--font-sans);
     --font-sans: var(--font-sans);

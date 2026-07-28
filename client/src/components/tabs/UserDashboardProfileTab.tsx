@@ -2,6 +2,7 @@
 
 import axios from "axios"
 import { useEffect, useState } from "react"
+import { toast } from "sonner"
 
 export default function UserDashboardProfileTab() {
   const [fullName, setFullName] = useState("")
@@ -53,7 +54,7 @@ export default function UserDashboardProfileTab() {
           }
         }
       )
-      alert("Profile saved!")
+      toast.success("پروفایل شما ذخیره شد")
     }catch(error: any){
       console.log(error.response?.data)
       console.log(error)

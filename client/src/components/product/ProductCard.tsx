@@ -1,6 +1,7 @@
 import { Product } from "@/types/product";
 import { formatPrice } from "@/utils/formatPrice";
 import axios from "axios";
+import { toast } from "sonner";
 
 
 interface Props {
@@ -22,7 +23,7 @@ export default function ProductCard({
     try{
         const token = localStorage.getItem("token");
         if(!token){
-            alert("ابتدا وارد حساب کاربری شوید.")
+            toast.warning("ابتدا وارد حساب کاربری شوید.")
             window.location.href = "/login"
             return;
         }
@@ -37,7 +38,7 @@ export default function ProductCard({
                 },
             }
         )
-        alert("محصول به سبد خرید اضافه شد.")
+        toast.success("محصول به سبد خرید اضافه شد.")
     }catch(error){
         console.log(error)
     }

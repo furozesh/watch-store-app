@@ -4,6 +4,7 @@ import Link from "next/link";
 import axios from "axios";
 import { Product } from "@/types/product";
 import { formatPrice } from "@/utils/formatPrice";
+import { toast } from "sonner";
 
 interface Props {
   product: Product;
@@ -16,7 +17,7 @@ export default function ProductSliderCard({ product }: Props) {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
-        alert("ابتدا وارد حساب کاربری شوید.");
+        toast.warning("ابتدا وارد حساب کاربری شوید.");
         window.location.href = "/login";
         return;
       }
@@ -31,7 +32,7 @@ export default function ProductSliderCard({ product }: Props) {
           },
         }
       );
-      alert("محصول به سبد خرید اضافه شد.");
+      toast.success("محصول به سبد خرید اضافه شد.");
     } catch (err) {
       console.log(err);
     }

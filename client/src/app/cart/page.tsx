@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import CartItem from "@/components/cart/CartItem";
 import CartSummary from "@/components/cart/CartSummary";
 import EmptyCart from "@/components/cart/EmptyCart";
+import ConfirmModal from "@/components/ui/ConfirmModal";
 
 interface Product {
   _id: string;
@@ -24,6 +25,8 @@ interface CartType {
 export default function CartPage() {
   const [cart, setCart] = useState<CartType | null>(null)
   const [loading, setLaoding] = useState(true)
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [selectedProductId, setSelectedProductId] = useState("");
   useEffect(() => {
     const token = localStorage.getItem("token")
     if (!token) {
@@ -75,25 +78,26 @@ export default function CartPage() {
     }
   }
   const removeItem = async (productId: string) => {
-    const ok = window.confirm("این محصول حذف شود؟")
-    if (!ok) return;
     try {
       const token = localStorage.getItem("token");
+
       await axios.delete(
         `${process.env.NEXT_PUBLIC_API_URL}/api/cart/${productId}`,
         {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         }
-      )
-      fetchCart()
-      window.dispatchEvent(new Event("cartUpdated"))
+      );
+
+      fetchCart();
+      window.dispatchEvent(new Event("cartUpdated"));
+      setDeleteModalOpen(false);
+
+    } catch (error) {
+      console.log(error);
     }
-    catch (error) {
-      console.log(error)
-    }
-  }
+  };
   const clearCart = async () => {
     try {
       const token = localStorage.getItem('token')
@@ -149,9 +153,10 @@ export default function CartPage() {
                 item.quantity - 1
               )
             }
-            onRemove={() =>
-              removeItem(item.product._id)
-            }
+            onRemove={() => {
+              setSelectedProductId(item.product._id);
+              setDeleteModalOpen(true);
+            }}
           />
 
         ))}
@@ -161,6 +166,16 @@ export default function CartPage() {
         totalPrice={totalPrice}
         onClearCart={clearCart}
         totalDiscount={totalDiscount}
+      />
+
+      <ConfirmModal
+        open={deleteModalOpen}
+        title="حذف محصول"
+        description="آیا از حذف این محصول از سبد خرید مطمئن هستید؟"
+        confirmText="حذف"
+        cancelText="انصراف"
+        onCancel={() => setDeleteModalOpen(false)}
+        onConfirm={() => removeItem(selectedProductId)}
       />
     </section>
   );

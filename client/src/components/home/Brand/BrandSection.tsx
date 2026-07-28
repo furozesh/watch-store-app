@@ -3,7 +3,7 @@ import { brands } from "@/types/brands";
 
 export default function BrandsSection() {
   return (
-    <section className="bg-[#EAE8E3] lg:py-24 py-10">
+    <section id="brands" className="bg-[#EAE8E3] lg:py-24 py-10 scroll-mt-45">
       <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-14">
             <span className="text-[#C4A35A] text-sm font-medium">برندها</span>
