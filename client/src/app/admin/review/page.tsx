@@ -69,7 +69,7 @@ export default function AdminReviews() {
     }
 
     return (
-        <div className="space-y-5">
+        <div className="sm:px-20 px-12 py-12 space-y-5">
             <h1
                 className="
                 text-2xl
@@ -116,7 +116,8 @@ export default function AdminReviews() {
                             <div>
                                 <h3
                                     className="
-                                    font-bold
+                                    sm:font-bold
+                                    font-normal
                                     text-blue-950
                                 "
                                 >
@@ -139,7 +140,7 @@ export default function AdminReviews() {
                             py-1
                             rounded-full
                             text-xs
-                            font-bold
+                            sm:font-bold font-normal
 
                             ${review.status === "approved"
                                         ? "bg-green-100 text-green-700"

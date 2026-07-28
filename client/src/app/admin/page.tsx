@@ -111,7 +111,7 @@ export default function Page(){
           <Link href="/admin/orders" className="bg-blue-950 text-white px-5 py-3 rounded-xl transition cursor-pointer">
             مدیریت سفارشات
           </Link>
-          <Link href="/admin/feedbacks" className="bg-blue-950 text-white px-5 py-3 rounded-xl transition cursor-pointer">
+          <Link href="/admin/review" className="bg-blue-950 text-white px-5 py-3 rounded-xl transition cursor-pointer">
             انتقادات و پیشنهادات
           </Link>
           <button onClick={logout} className="bg-blue-950 text-white px-5 py-3 rounded-xl transition cursor-pointer">
