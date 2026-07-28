@@ -22,7 +22,7 @@ export default function AdminOrderPage(){
     const fetchOrders = async() => {
         const token = localStorage.getItem("token")
         const res = await axios.get(
-            `http://localhost:5000/api/orders/admin`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/orders/admin`,
             {
                 headers:{
                     Authorization:`Bearer ${token}`
@@ -34,7 +34,7 @@ export default function AdminOrderPage(){
     const updateStatus = async(id: string, status: string) => {
         const token = localStorage.getItem("token")
         await axios.put(
-            `http://localhost:5000/api/orders/admin/${id}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/orders/admin/${id}`,
             {status},
             {
                 headers:{

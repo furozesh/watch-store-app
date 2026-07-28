@@ -19,7 +19,7 @@ export default function UserDashboardAddressTab() {
         try{
             const token = localStorage.getItem("token")
             const res = await axios.get(
-                "http://localhost:5000/api/addresses",
+                `${process.env.NEXT_PUBLIC_API_URL}/api/addresses`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`
@@ -36,7 +36,7 @@ export default function UserDashboardAddressTab() {
         try{
             if(editingId){
                 await axios.put(
-                    `http://localhost:5000/api/addresses/${editingId}`,
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/addresses/${editingId}`,
                     {
                         receiverName,
                         receiverPhone,
@@ -54,7 +54,7 @@ export default function UserDashboardAddressTab() {
                 alert("آدرس ویرایش شد.")
             }else{
                 await axios.post(
-                    `http://localhost:5000/api/addresses`,
+                    `${process.env.NEXT_PUBLIC_API_URL}/api/addresses`,
                     {
                         receiverName,
                         receiverPhone,
@@ -103,7 +103,7 @@ export default function UserDashboardAddressTab() {
            const confirmDelete = confirm("آیا از حذف این آدرس مطمئن هستید؟") 
            if(!confirmDelete) return
            await axios.delete(
-            `http://localhost:5000/api/addresses/${id}`,
+            `${process.env.NEXT_PUBLIC_API_URL}/api/addresses/${id}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`

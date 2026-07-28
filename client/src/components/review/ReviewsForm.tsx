@@ -40,7 +40,7 @@ export default function ReviewForm({
       setLoading(true);
 
       await axios.post(
-        `http://localhost:5000/api/reviews/${productId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/reviews/${productId}`,
         {
           productId,
           rating,

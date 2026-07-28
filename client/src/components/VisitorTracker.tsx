@@ -13,7 +13,7 @@ export default function VisitorTracker() {
     if (!visited) {
       console.log("Sending visit...");
 
-      fetch("http://localhost:5000/api/stats/visit", {
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/stats/visit`, {
         method: "POST",
       })
         .then((res) => res.json())

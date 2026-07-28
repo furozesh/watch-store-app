@@ -27,7 +27,7 @@ export default function ProductCard({
             return;
         }
         await axios.post(
-            "http://localhost:5000/api/cart/add",
+            `${process.env.NEXT_PUBLIC_API_URL}/api/cart/add`,
             {
                 productId: product._id
             },
@@ -46,7 +46,7 @@ export default function ProductCard({
     <div className="border rounded-xl p-4 flex flex-col gap-3">
 
       <img
-        src={`http://localhost:5000/uploads/${product.image}`}
+        src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${product.image}`}
         alt={product.title}
 
         className="w-full h-60 object-cover rounded-lg"

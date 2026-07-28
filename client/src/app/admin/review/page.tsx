@@ -27,7 +27,7 @@ export default function AdminReviews() {
     const fetchReviews = async () => {
         try {
             const token = localStorage.getItem("token");
-            const res = await axios.get("http://localhost:5000/api/reviews", {
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/reviews`, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -45,7 +45,7 @@ export default function AdminReviews() {
         try {
             const token = localStorage.getItem("token");
             await axios.patch(
-                `http://localhost:5000/api/reviews/${id}/status`,
+                `${process.env.NEXT_PUBLIC_API_URL}/api/reviews/${id}/status`,
 
                 {
                     status,

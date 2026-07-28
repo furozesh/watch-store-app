@@ -21,7 +21,7 @@ export default function ProductSliderCard({ product }: Props) {
         return;
       }
       await axios.post(
-        "http://localhost:5000/api/cart/add",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/cart/add`,
         {
           productId: product._id,
         },
@@ -43,7 +43,7 @@ export default function ProductSliderCard({ product }: Props) {
         {/* Image */}
         <div className="relative group overflow-hidden bg-[#EAE8E3] h-80">
           <img
-            src={`http://localhost:5000/uploads/${product.image}`}
+            src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${product.image}`}
             alt={product.title}
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />

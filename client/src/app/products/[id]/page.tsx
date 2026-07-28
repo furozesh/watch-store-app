@@ -30,7 +30,7 @@ export default function ProductPage() {
     }, [params.id])
     const fetchProduct = async () => {
         try {
-            const res = await axios.get(`http://localhost:5000/api/products/${params.id}`)
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${params.id}`)
             setProduct(res.data)
         }
         catch (error) {
@@ -41,7 +41,7 @@ export default function ProductPage() {
         return <div>Loading...</div>
     }
     console.log(params.id)
-    console.log(`http://localhost:5000/uploads/${product.image}`)
+    console.log(`${process.env.NEXT_PUBLIC_API_URL}/uploads/${product.image}`)
     const addToCart = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -51,7 +51,7 @@ export default function ProductPage() {
                 return;
             }
             await axios.post(
-                "http://localhost:5000/api/cart/add",
+                `${process.env.NEXT_PUBLIC_API_URL}/api/cart/add`,
                 {
                     productId: product._id,
                     quantity
@@ -77,7 +77,7 @@ export default function ProductPage() {
                     title={product.title}
                     discountPercentage={product.discountPercentage}
                     images={[
-                        `http://localhost:5000/uploads/${product.image}`
+                        `${process.env.NEXT_PUBLIC_API_URL}/uploads/${product.image}`
                     ]}
                 />
                 <ProductInfo

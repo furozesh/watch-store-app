@@ -21,7 +21,7 @@ export default function ProductSlider() {
   async function fetchProducts() {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/products",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
         {
           params: {
             limit: 8,

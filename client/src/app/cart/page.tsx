@@ -38,7 +38,7 @@ export default function CartPage() {
       const token = localStorage.getItem("token")
       if (!token) return
       const res = await axios.get(
-        "http://localhost:5000/api/cart",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/cart`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -58,7 +58,7 @@ export default function CartPage() {
     try {
       const token = localStorage.getItem('token')
       await axios.patch(
-        `http://localhost:5000/api/cart/${productId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/cart/${productId}`,
         {
           quantity,
         },
@@ -80,7 +80,7 @@ export default function CartPage() {
     try {
       const token = localStorage.getItem("token");
       await axios.delete(
-        `http://localhost:5000/api/cart/${productId}`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/cart/${productId}`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -98,7 +98,7 @@ export default function CartPage() {
     try {
       const token = localStorage.getItem('token')
       await axios.delete(
-        "http://localhost:5000/api/cart",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/cart`,
         {
           headers: {
             Authorization: `Bearer ${token}`

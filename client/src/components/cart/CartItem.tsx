@@ -35,7 +35,7 @@ export default function CartItem({
             {/* image */}
             <div className="relative sm:col-span-1 h-20 w-20 sm:w-28 sm:h-28 rounded-xl overflow-hidden bg-slate-100 aspect-square flex justify-center items-center">
                 <img
-                    src={`http://localhost:5000/uploads/${item.product.image}`}
+                    src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${item.product.image}`}
                     alt={item.product.title}
                     className="w-full object-cover "
                 />

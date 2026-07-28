@@ -13,7 +13,7 @@ export default function CategoryPage() {
 
     useEffect(() => {
         axios.get(
-            "http://localhost:5000/api/products",
+            `${process.env.NEXT_PUBLIC_API_URL}/api/products`,
             {
                 params:{
                     gender,

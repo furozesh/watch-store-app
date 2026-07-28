@@ -28,7 +28,7 @@ export default function CreateProductPage(){
         try{
             const token = localStorage.getItem("token")
             if(productId){
-                await axios.put(`http://localhost:5000/api/products/${productId}`,
+                await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`,
                     {
                         title,
                         description,
@@ -62,8 +62,7 @@ export default function CreateProductPage(){
                 return;
             }
             formData.append("image", image);
-            await axios.post(
-                "http://localhost:5000/api/products",
+            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/products`,
                 formData,
                 {
                     headers: {
@@ -80,7 +79,7 @@ export default function CreateProductPage(){
     }
     const fetchProduct = async () => {
         try{
-            const res = await axios.get(`http://localhost:5000/api/products/${productId}`)
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`)
             console.log(res.data)
             setTitle(res.data.title)
             setDescription(res.data.description)

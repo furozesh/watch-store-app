@@ -36,7 +36,7 @@ export default function ProductReviews({
         try {
             setLoading(true);
             const res = await axios.get(
-                `http://localhost:5000/api/reviews/${productId}`
+                `${process.env.NEXT_PUBLIC_API_URL}/api/reviews/${productId}`
             );
             setReviews(res.data);
         } catch (error) {
@@ -64,7 +64,7 @@ export default function ProductReviews({
                 return;
             }
             await axios.post(
-                `http://localhost:5000/api/reviews/${productId}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/api/reviews/${productId}`,
                 {
                     rating,
                     comment,

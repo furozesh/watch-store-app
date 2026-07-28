@@ -32,7 +32,7 @@ export default function LoginPage() {
     try {
       setLoading(true);
       const res = await axios.post(
-        "http://localhost:5000/api/auth/send-otp",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/send-otp`,
         {
           phone,
         }
@@ -61,7 +61,7 @@ export default function LoginPage() {
       setLoading(true);
 
       const res = await axios.post(
-        "http://localhost:5000/api/auth/verify-otp",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/verify-otp`,
         {
           phone,
           otp,

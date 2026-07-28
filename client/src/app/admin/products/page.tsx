@@ -13,7 +13,7 @@ export default function AdminPRoductsPage () {
 
     const fetchProducts = async() => {
         try{
-            const res = await axios.get("http://localhost:5000/api/products")
+            const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/products`)
             setProducts(res.data.products)
         }
         catch(error){
@@ -26,7 +26,7 @@ export default function AdminPRoductsPage () {
     const deleteProduct = async(id: number | string) => {
         try{
             const token = localStorage.getItem("token")
-            await axios.delete(`http://localhost:5000/api/products/${id}`,
+            await axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${id}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`

@@ -32,7 +32,7 @@ export default function CheckoutPage() {
       localStorage.getItem("token");
 
     const res = await axios.get(
-      "http://localhost:5000/api/addresses",
+    `${process.env.NEXT_PUBLIC_API_URL}/api/addresses`,
       {
         headers: {
           Authorization:
@@ -56,8 +56,7 @@ export default function CheckoutPage() {
     const token =
       localStorage.getItem("token");
 
-    await axios.post(
-      "http://localhost:5000/api/orders",
+    await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/orders`,
       {
         addressId: selectedAddress
       },

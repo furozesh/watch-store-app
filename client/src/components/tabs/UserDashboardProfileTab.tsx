@@ -20,7 +20,7 @@ export default function UserDashboardProfileTab() {
     try{
       const token = localStorage.getItem("token")
       const res = await axios.get(
-        "http://localhost:5000/api/users/profile",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/users/profile`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -40,7 +40,7 @@ export default function UserDashboardProfileTab() {
     try{
       const token = localStorage.getItem("token")
       await axios.put(
-        "http://localhost:5000/api/users/profile",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/users/profile`,
         {
           fullName,
           nationalCode,

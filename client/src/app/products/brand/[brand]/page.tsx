@@ -12,7 +12,7 @@ export default function BrandPage() {
   const { brand } = useParams<{ brand: string }>();
   useEffect(() => {
     axios
-      .get("http://localhost:5000/api/products", {
+      .get(`${process.env.NEXT_PUBLIC_API_URL}/api/products`, {
         params: {
           brand,
         },

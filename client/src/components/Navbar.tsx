@@ -43,7 +43,7 @@ export default function Navbar() {
     if(!token) return
     try{
       const res = await axios.get(
-        "http://localhost:5000/api/users/profile",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/users/profile`,
         {
           headers: {
             Authorization: `Bearer ${token}`
@@ -60,7 +60,7 @@ export default function Navbar() {
     if(!token) return
     try{
       const res = await axios.get(
-        "http://localhost:5000/api/cart/count",
+        `${process.env.NEXT_PUBLIC_API_URL}/api/cart/count`,
         {
           headers:{
             Authorization: `Bearer ${token}`
