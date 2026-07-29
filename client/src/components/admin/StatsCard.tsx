@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ReactNode } from "react";
 
 interface StatCardProps {
@@ -5,10 +6,11 @@ interface StatCardProps {
     value: string | number;
     icon: ReactNode;
     description?: string;
+    link?: string
 }
-export default function StatCard({ title, value, icon, description }: StatCardProps) {
-    return (
-        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-mdtransition">
+export default function StatCard({ title, value, icon, description, link}: StatCardProps) {
+    const card = (
+        <div className="bg-white border border-slate-200 rounded-2xl p-6 shadow-sm hover:shadow-md transition">
             <div className="flex items-center justify-between">
                 <div>
                     <p className="text-sm text-slate-500 mb-2">{title}</p>
@@ -19,4 +21,14 @@ export default function StatCard({ title, value, icon, description }: StatCardPr
             </div>
         </div>
     )
+
+    if(link){
+        return(
+            <Link href={link}>
+                {card}
+            </Link>
+        )
+    }
+
+    return card
 }

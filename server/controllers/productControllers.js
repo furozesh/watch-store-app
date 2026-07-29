@@ -137,13 +137,15 @@ const deleteProduct = async (req, res) => {
 
 const updateProduct = async (req , res) => {
     try {
+        const updateData = {...req.body}
+        if(req.file){
+            updateData.image = req.file.filename
+        }
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
-            req.body,
-            {
-                new: true,
-            }
-        );
+            updateData,
+            {new: true}
+        )
         res.status(200).json(updatedProduct)
     }
     catch (error) {

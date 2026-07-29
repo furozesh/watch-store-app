@@ -1,6 +1,7 @@
 import { Product } from "@/types/product";
 import { formatPrice } from "@/utils/formatPrice";
 import axios from "axios";
+import Link from "next/link";
 import { toast } from "sonner";
 
 
@@ -44,48 +45,49 @@ export default function ProductCard({
     }
     }
   return (
-    <div className="border rounded-xl p-4 flex flex-col gap-3">
 
-      <img
-        src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${product.image}`}
-        alt={product.title}
+    <Link href={`/products/${product._id}`}>
+      <div className="group overflow-hidden border border-gray-200 bg-white transition-all duration-300 hover:shadow-xl hover:border-[#cab587]">
+        {/* Image */}
+        <div className="relative group overflow-hidden bg-[#EAE8E3] h-80">
+          <img
+            src={`${process.env.NEXT_PUBLIC_API_URL}/uploads/${product.image}`}
+            alt={product.title}
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+          />
+          {product.discountPercentage > 0 && (
+            <span className="absolute top-4 right-4 bg-[#C4A35A] text-white text-xs px-3 py-1">
+              %{product.discountPercentage.toLocaleString("fa-IR")}
+            </span>
+          )}
+        </div>
 
-        className="w-full h-60 object-cover rounded-lg"
-      />
-
-      <h2 className="text-xl font-bold">
-        {product.title}
-      </h2>
-
-      <p className="text-gray-500">
-        {categoryMap[product.category]}
-      </p>
-
-      <p className="text-sm text-gray-600">
-        {product.description}
-      </p>
-
-      <div className="font-bold text-lg flex gap-3">
-        {product.discountPercentage ? <del>{formatPrice(product.price)}</del> : ''}
-        <span>{formatPrice(discountPrice)}</span>
+        {/* Content */}
+        <div className="p-6">
+          <p className="text-xs uppercase tracking-[3px] text-gray-500 mb-2">{product.brand}</p>
+          <h3 className="font-semibold text-[#0D1B2A] text-base mb-3 line-clamp-1">{product.title}</h3>
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col">
+              <span className="text-sm font-bold text-primary">
+                {formatPrice(discountPrice)}
+              </span>
+            </div>
+            <button
+              onClick={addToCart}
+              disabled={product.stock === 0}
+              className={`text-xs transition-colors font-medium ${
+                product.stock === 0
+                  ? "text-gray-400 cursor-not-allowed"
+                  : "text-[#C4A35A] cursor-pointer"
+              }`}
+            >
+              {product.stock === 0
+                ? "ناموجود"
+                : "افزودن به سبد"}
+            </button>
+          </div>
+        </div>
       </div>
-
-      <button 
-        onClick={addToCart}    
-        disabled={product.stock === 0}
-        className={`px-4 py-2 rounded ${product.stock === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-blue-600 text-white'}`}
-      >
-        {
-          product.stock === 0 ? 'ناموجود' : 'اضافه کردن به سبد خرید'
-        }
-      </button>
-      {
-        product.stock === 0 ? (
-          <span className="text-red-500">ناموجود</span>
-        ) : (
-          <span className="text-green-500">موجودی {product.stock}</span>
-        )
-      }
-    </div>
+    </Link>
   );
 }

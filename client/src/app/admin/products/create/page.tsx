@@ -6,40 +6,49 @@ import { useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { formatPrice } from "@/utils/formatPrice"
 import { toast } from "sonner"
+import { ArrowLeft } from "lucide-react"
+import Link from "next/link"
 
-export default function CreateProductPage(){
+export default function CreateProductPage() {
     const searchParams = useSearchParams()
     const productId = searchParams.get("id")
-    const [title , setTitle] = useState("")
-    const [description , setDescription] = useState("")
-    const [price , setPrice] = useState("")
-    const [stock , setStock] = useState("")
-    const [category , setCategory] = useState("classic")
-    const [image , setImage] = useState<File | null>(null)
-    const [gender , setGender] = useState("unisex")
+    const [title, setTitle] = useState("")
+    const [description, setDescription] = useState("")
+    const [price, setPrice] = useState("")
+    const [stock, setStock] = useState("")
+    const [category, setCategory] = useState("classic")
+    const [image, setImage] = useState<File | null>(null)
+    const [gender, setGender] = useState("unisex")
     const [brand, setBrand] = useState("Casio");
     const [discountPercentage, setDiscountPercentage] = useState("0")
     useEffect(() => {
-        if(productId){
+        if (productId) {
             fetchProduct()
         }
-    },[productId])
+    }, [productId])
 
     const submitProduct = async () => {
-        try{
+        try {
             const token = localStorage.getItem("token")
-            if(productId){
-                await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/products/${productId}`,
-                    {
-                        title,
-                        description,
-                        price,
-                        stock,
-                        category,
-                        gender,
-                        brand,
-                        discountPercentage
-                    },
+            const formData = new FormData()
+            formData.append("title", title)
+            formData.append("description", description)
+            formData.append("price", price)
+            formData.append("stock", stock)
+            formData.append("category", category)
+            formData.append("gender", gender)
+            formData.append("brand", brand)
+            formData.append("discountPercentage", discountPercentage)
+            if(image){
+                formData.append('image', image);
+            } else if(!productId){
+                toast.warning("هیچ فایلی انتخاب نشده");
+                return;
+            }
+
+            if (productId) {
+                await axios.put(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`,
+                    formData,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
@@ -47,22 +56,9 @@ export default function CreateProductPage(){
                     }
                 );
                 toast.success("محصول ویرایش شد.")
-                return;
+                return
             }
-            const formData = new FormData()
-            formData.append("title" , title)
-            formData.append("description" , description)
-            formData.append("price" , price)
-            formData.append("stock" , stock)
-            formData.append("category" , category)
-            formData.append("gender", gender)
-            formData.append("brand", brand)
-            formData.append("discountPercentage", discountPercentage)
-            if (!image) {
-                toast.warning("هیچ فایلی انتخاب نشده");
-                return;
-            }
-            formData.append("image", image);
+
             await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/api/products`,
                 formData,
                 {
@@ -70,16 +66,17 @@ export default function CreateProductPage(){
                         Authorization: `Bearer ${token}`
                     }
                 }
-            
+
             )
             toast.success("محصول به سایت اضافه شد.")
-        } 
-        catch(error){
+        }
+        catch (error) {
             console.log(error)
+            toast.error('خطایی در سرور رخ داده')
         }
     }
     const fetchProduct = async () => {
-        try{
+        try {
             const res = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}/api/products/${productId}`)
             console.log(res.data)
             setTitle(res.data.title)
@@ -91,27 +88,33 @@ export default function CreateProductPage(){
             setBrand(res.data.brand)
             setDiscountPercentage(res.data.discountPercentage)
         }
-        catch(error){
+        catch (error) {
             console.log(error)
         }
     }
-    return(
-        <div style={{direction: "rtl"}} className="px-10">
-            <h1 className="font-black text-2xl w-full flex justify-center mt-7 text-blue-950">ساخت محصول</h1>
-            <div className="my-10 grid grid-cols-5 justify-between items-start">
-                <input placeholder="عنوان محصول" value={title} onChange={(e) => setTitle(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2"/>
-                <textarea placeholder="توضیحات" value={description} onChange={(e) => setDescription(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2"/>
-                <input placeholder="قیمت" value={price} onChange={(e) => setPrice(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2"/>
+    return (
+        <div style={{ direction: "rtl" }} className="sm:px-24 px-12 sm:py-12 py-3">
+            <div className="flex justify-between items-center">
+                <h1 className="font-black text-2xl text-blue-950">ساخت محصول</h1>
+                <Link href={"/admin/products/"} className='flex items-center gap-2 hover:text-blue-950 text-blue-900 transition-colors duration-150'>
+                    <span className='lg:block hidden'>برگشت به صفحه قبل</span>
+                    <ArrowLeft className='w-5' />
+                </Link>
+            </div>
+            <div className="my-10 grid lg:grid-cols-5 sm:grid-cols-3 grid-cols-1 gap-6 justify-between items-start">
+                <input placeholder="عنوان محصول" value={title} onChange={(e) => setTitle(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2" />
+                <textarea placeholder="توضیحات" value={description} onChange={(e) => setDescription(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2" />
+                <input placeholder="قیمت" value={price} onChange={(e) => setPrice(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2" />
                 <div className="flex flex-col">
-                    <input type="number" min={0} max={100} placeholder="درصد تخفیف" value={discountPercentage} onChange={(e) => setDiscountPercentage(e.target.value)} className="border rounded-lg px-4 py-2"/>
-                    <p className="text-green-600">
+                    <input type="number" min={0} max={100} placeholder="درصد تخفیف" value={discountPercentage} onChange={(e) => setDiscountPercentage(e.target.value)} className="border rounded-lg px-4 py-2" />
+                    <p className="text-green-600 mt-4">
                         قیمت بعد از تخفیف:
                         {
                             formatPrice(Number(price) - (Number(price) * Number(discountPercentage) / 100))
                         }
                     </p>
                 </div>
-                <input placeholder="موجودی" value={stock} onChange={(e) => setStock(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2"/>
+                <input placeholder="موجودی" value={stock} onChange={(e) => setStock(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2" />
 
                 <select value={category} onChange={(e) => setCategory(e.target.value)} className="border border-gray-400 rounded-lg text-right px-4 py-2">
                     <option value="classic">
@@ -124,7 +127,7 @@ export default function CreateProductPage(){
                         اسپورت
                     </option>
                 </select>
-                <select value={gender} onChange={(e) => setGender(e.target.value)}>
+                <select value={gender} className="border border-gray-400 rounded-lg text-right px-4 py-2" onChange={(e) => setGender(e.target.value)}>
                     <option value="men">
                         مردانه
                     </option>
@@ -172,20 +175,16 @@ export default function CreateProductPage(){
                     </option>
 
                 </select>
-                <input type="file" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    if(e.target.files && e.target.files.length > 0){
+                <input type="file" className="border border-gray-400 rounded-lg text-right px-4 py-2" onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                    if (e.target.files && e.target.files.length > 0) {
                         setImage(e.target.files[0])
                     } else {
                         setImage(null)
                     }
-                }}/>
+                }} />
             </div>
 
-            
-
-            
-
-            <button onClick={submitProduct}  className="text-center px-4 py-2 rounded-xl bg-blue-200 cursor-pointer">
+            <button onClick={submitProduct} className="text-center px-4 py-2 rounded-xl bg-blue-200 cursor-pointer">
                 {productId ? "ویرایش" : "اضافه"}
             </button>
         </div>

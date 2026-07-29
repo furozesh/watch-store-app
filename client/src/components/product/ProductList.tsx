@@ -65,7 +65,7 @@ export default function ProductList() {
     );
   }
   return (
-    <main className="font-sans">
+    <main className="font-sans sm:px-10 xl:px-24 px-6 py-10">
       
       <div className="grid grid-cols-2 gap-4 mb-8">
         <select
@@ -175,7 +175,7 @@ export default function ProductList() {
       </div> 
       
       <div
-        className={`grid grid-cols-1 md:grid-cols-3 gap-6 transition-all duration-300 ${isSearching ? "opacity-40 pointer-events-none" : ""}`}>
+        className={`grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4  gap-6 transition-all duration-300 ${isSearching ? "opacity-40 pointer-events-none" : ""}`}>
         {isSearching && (
           <div className="fixed inset-0 bg-black/10 z-40 pointer-events-none"/>
         )}

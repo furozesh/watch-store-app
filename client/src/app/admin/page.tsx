@@ -9,26 +9,26 @@ import { Box, Eye, ShoppingBag, Tag, User, Users, Wallet } from "lucide-react"
 import { formatPrice } from "@/utils/formatPrice"
 
 interface DashboardData {
-  visitors:number;
-  users:number;
-  products:number;
-  orders:number;
-  outOfStock:number;
-  revenue:number;
-  latestOrders:any[];
+  visitors: number;
+  users: number;
+  products: number;
+  orders: number;
+  outOfStock: number;
+  revenue: number;
+  latestOrders: any[];
 }
 
-export default function Page(){
+export default function Page() {
   const router = useRouter();
-  const [authorized,setAuthorized]=useState(false);
-  const [dashboard,setDashboard]=useState<DashboardData | null>(null);
+  const [authorized, setAuthorized] = useState(false);
+  const [dashboard, setDashboard] = useState<DashboardData | null>(null);
   useEffect(() => {
-    const user=getUserFromToken();
-    if(!user){
+    const user = getUserFromToken();
+    if (!user) {
       router.push("/login");
       return;
     }
-    if(user.role !== "admin"){
+    if (user.role !== "admin") {
       router.push("/dashboard");
       return;
     }
@@ -41,31 +41,32 @@ export default function Page(){
 
 
   useEffect(() => {
-    const getDashboard = async() => {
-      try{
+    const getDashboard = async () => {
+      try {
         const token = localStorage.getItem("token");
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/api/admin/dashboard`,
           {
-            headers:{
-              Authorization:`Bearer ${token}`
+            headers: {
+              Authorization: `Bearer ${token}`
             }
           }
         );
         const data = await res.json();
         setDashboard(data);
-      }catch(error) {
+      } catch (error) {
         console.log(error);
       }
     }
 
-    if(authorized) {
+    if (authorized) {
       getDashboard()
-    }},[authorized]);
-
-    if(!authorized || !dashboard){
-      return null;
     }
+  }, [authorized]);
+
+  if (!authorized || !dashboard) {
+    return null;
+  }
 
   return (
     <div className="max-w-7xl mx-auto px-5 py-10">
@@ -75,22 +76,24 @@ export default function Page(){
         <StatCard
           title="بازدیدکنندگان"
           value={dashboard.visitors}
-          icon={<Eye/>}
+          icon={<Eye />}
         />
         <StatCard
           title="کاربران"
           value={dashboard.users}
-          icon={<Users/>}
+          icon={<Users />}
         />
         <StatCard
+          link="/admin/products"
           title="محصولات"
           value={dashboard.products}
-          icon={<Tag/>}
+          icon={<Tag />}
         />
         <StatCard
+          link="/admin/orders"
           title="سفارشات"
           value={dashboard.orders}
-          icon={<ShoppingBag/>}
+          icon={<ShoppingBag />}
         />
       </div>
       <div className="mt-5 grid grid-cols-1 lg:grid-cols-4 gap-5">
@@ -98,7 +101,7 @@ export default function Page(){
           <StatCard
             title="درآمد کل"
             value={(formatPrice(dashboard.revenue || 0))}
-            icon={<Wallet/>}
+            icon={<Wallet />}
           />
         </div>
         <div className="lg:col-span-3">
@@ -108,15 +111,12 @@ export default function Page(){
         </div>
       </div>
       <div className="mt-8 flex flex-wrap gap-4">
-          <Link href="/admin/orders" className="bg-blue-950 text-white px-5 py-3 rounded-xl transition cursor-pointer">
-            مدیریت سفارشات
-          </Link>
-          <Link href="/admin/review" className="bg-blue-950 text-white px-5 py-3 rounded-xl transition cursor-pointer">
-            انتقادات و پیشنهادات
-          </Link>
-          <button onClick={logout} className="bg-blue-950 text-white px-5 py-3 rounded-xl transition cursor-pointer">
-             خروج از حساب
-          </button>
+        <Link href="/admin/review" className="bg-blue-950 text-white px-5 py-3 rounded-xl transition cursor-pointer">
+          انتقادات و پیشنهادات
+        </Link>
+        <button onClick={logout} className="bg-blue-950 text-white px-5 py-3 rounded-xl transition cursor-pointer">
+          خروج از حساب
+        </button>
       </div>
     </div>
   )

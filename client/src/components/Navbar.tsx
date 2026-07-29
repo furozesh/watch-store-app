@@ -84,7 +84,7 @@ export default function Navbar() {
         >
           {mobileOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
-        <Link href="#" className="shrink-0 flex items-baseline gap-1 group">
+        <Link href="/" className="shrink-0 flex items-baseline gap-1 group">
           <span className="text-[22px] font-bold tracking-tight text-[#0f2d6b] group-hover:opacity-80 transition-opacity">
             CHRONEX
           </span>
